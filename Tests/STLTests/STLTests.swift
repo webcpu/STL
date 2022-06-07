@@ -6,6 +6,6 @@ final class STLTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(STL().text, "Hello, World!")
+//        XCTAssertEqual(STL().text, "Hello, World!")
     }
 }
