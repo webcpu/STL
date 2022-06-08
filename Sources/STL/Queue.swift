@@ -1,12 +1,10 @@
 import CxxSTL
 
 class Queue<T>: NSObject {
-//class PQueue<T: AnyObject>: NSObject {
     private var q: _Queue<AnyObject>
     
     override init() {
         self.q = _Queue<AnyObject>()
- //       self.q = Queue<T>()
     }
     
     func push(_ value: T) {

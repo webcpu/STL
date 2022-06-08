@@ -46,7 +46,7 @@ class PriorityQueueTests: XCTestCase {
 //    }
     
     func testFloat() throws {
-        let expects: [Float] = [1.0, 2.0, 3.0]
+        let expects: [Float] = [3.0, 7.0, 4.0]
         verifyPriorityQueue(expects)
     }
     
@@ -110,19 +110,19 @@ class PriorityQueueTests: XCTestCase {
         verifyPriorityQueue(expects)
     }
     
-//    func testCGPoint() throws {
-//        let expects = [CGPoint(x: 1, y: 1), CGPoint(x: 1, y: 2), CGPoint(x: 1, y: 3), CGPoint(x: 1, y: 4)]
-//        verifyPriorityQueue(expects)
-//    }
+    func testCGPoint() throws {
+        let expects = [CGPoint(x: 1, y: 1), CGPoint(x: 1, y: 2), CGPoint(x: 1, y: 3), CGPoint(x: 1, y: 4)]
+        verifyPriorityQueue(expects)
+    }
     
     func testNSObject() throws {
         let expects = [NSObject(), NSObject()]
-//        verifyPriorityQueue(expects.sorted(by: (<)))
+        verifyPriorityQueue(expects)
     }
     
     
     func verifyPriorityQueue<T: Comparable>(_ inputs: [T]) {
-        let queue = PriorityQueue<T>({(_ a: Any, _ b: Any) -> Bool in compareF(a as! Any, b)})
+        let queue = PriorityQueue<T>({(_ a: Any, _ b: Any) -> Bool in compareF(a, b)})
         XCTAssertTrue(queue.empty)
         
         inputs.forEach({obj in
@@ -144,14 +144,43 @@ class PriorityQueueTests: XCTestCase {
     }
 }
 
-fileprivate func compareF(_ a: Any, _ b: Any) -> Bool {
-    if (a is String) {
-        let lhs: String = a as! String
-        let rhs: String = b as! String
+public func compareF(_ a: Any, _ b: Any) -> Bool {
+    precondition(type(of: a) == (type(of: b)))
+    print(type(of:a))
+    switch a {
+    case is NSObject:
+        let lhs = a as! NSObject
+        let rhs = b as! NSObject
+        return lhs.description < rhs.description
+    case is CGPoint:
+        let lhs = a as! CGPoint
+        let rhs = b as! CGPoint
         return lhs < rhs
-    } else {
-        let lhs: Int = a as! Int
-        let rhs: Int = b as! Int
+//    case is Float:
+//        let lhs = a as! Float
+//        let rhs = b as! Float
+//        return lhs < rhs
+    case is String:
+        let lhs = a as! String
+        let rhs = b as! String
         return lhs < rhs
+    case is NSNumber:
+        let lhs = a as! NSNumber
+        let rhs = b as! NSNumber
+        return lhs.isLessThan(rhs)
+    default:
+        fatalError()
+    }
+}
+
+extension NSObject: Comparable {
+    public static func < (lhs: NSObject, rhs: NSObject) -> Bool {
+        return lhs.description < rhs.description
+    }
+}
+
+extension CGPoint: Comparable {
+    public static func < (lhs: CGPoint, rhs: CGPoint) -> Bool {
+        return lhs.y < rhs.y
     }
 }

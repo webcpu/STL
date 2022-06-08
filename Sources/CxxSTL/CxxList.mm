@@ -71,7 +71,6 @@ using namespace std;
 
 - (NSString *)description {
     return @"";
-//    return [NSString stringWithFormat:@"The queue is [%@]", self.q];
 }
 
 @end

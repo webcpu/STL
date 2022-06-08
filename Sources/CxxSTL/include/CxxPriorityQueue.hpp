@@ -33,8 +33,7 @@ typedef bool (*CompareCompletion)(Any a, Any b);
 @interface _PriorityQueue<Any> : NSObject
 typedef bool (*CompareCompletion)(Any a, Any b);
 
-@property (nonatomic) CompareCompletion compareCompletion;
-
+//@property (nonatomic) CompareCompletion compareCompletion;
 //- (instancetype)init:(CompareCompletion)completion;
 - (instancetype)init:(_Function *)fo;
 

@@ -1,81 +1,26 @@
 import CxxSTL
 
 public func compareFunction(_ a: Any, _ b: Any) -> Bool {
-    let lhs: Int = a as! Int
-    let rhs: Int = b as! Int
-    return lhs < rhs
+    precondition(type(of: a) == (type(of: b)))
+    print(type(of:a))
+    switch a {
+    case is NSNumber:
+    let lhs = a as! NSNumber
+    let rhs = b as! NSNumber
+        return lhs.isLessThan(rhs)
+    case is NSString:
+    let lhs = a as! NSString
+    let rhs = b as! NSString
+        return lhs.isLessThan(rhs)
+    default:
+        return true
+    }
 }
-
-//class FunctionObject {
-//    var compare: (Any, Any) -> Bool = { (a, b) in
-//        let lhs: Int = a as! Int
-//        let rhs: Int = b as! Int
-//        return lhs < rhs
-//    }
-//}
 
 public class PriorityQueue<T: Comparable>: NSObject {
     private var q: _PriorityQueue<AnyObject>
-//    var compare: (Any, Any) -> Bool = { (a, b) in
-//        let lhs: T = a as! T
-//        let rhs: T = b as! T
-//        return lhs < rhs
-//    }
-    var compare: (Any, Any) -> Bool = { (a, b) in
-        let lhs: Int = a as! Int
-        let rhs: Int = b as! Int
-        return lhs < rhs
-    }
-    
-    var fo: _Function<AnyObject>
-    
-    public func compareF(_ a: Any, _ b: Any) -> Bool {
-        let lhs: Int = a as! Int
-        let rhs: Int = b as! Int
-     //   return lhs < rhs
-        return compare(a, b)
-    }
-    
     init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = compareFunction) {
-//        self.compare = cmp
-        let f = {(a: Any, b: Any) -> Bool in
-            let lhs: Int = a as! Int
-            let rhs: Int = b as! Int
-            return lhs < rhs
-        }
-        self.fo = _Function<AnyObject>(cmp)
-        //        if T.self is Int {
-        //            self.q = _PriorityQueue<NSNumber>() as! _PriorityQueue<AnyObject>
-        //        } else {
-        //            self.q = _PriorityQueue<AnyObject>()
-        //        }
-//      let object = NSObject()
- //       self.q = _PriorityQueue<AnyObject>(compareFunction);
-//        super.init()
-     //   let context = Unmanaged.passRetained(self.fo).toOpaque()
-        self.q = _PriorityQueue<AnyObject>(self.fo);
-
-//        self.q = _PriorityQueue<AnyObject>({(a: Any, b: Any) -> Bool in
-//            let fo = Unmanaged<FunctionObject>.fromOpaque(context).takeRetainedValue()
-//            return fo.compare(a, b)});
-//        self.q.compareCompletion = cmp //compareFunction;
-//        {(a, b) -> Bool in
-//                    return self.compareF(a, b)}
-        
-//                self.q = _PriorityQueue<AnyObject>(self.compareF)
-//        self.q = _PriorityQueue<AnyObject>({ (a, b) -> Bool in
-            //            let lhs: Int = a as! Int
-            //           let rhs: Int = b as! Int
-            //          return lhs < rhs
-//            return cmp(a, b)
-//        })
-        //
-        //        self.q = _PriorityQueue<AnyObject>(compare as  (Optional<@convention(c) (Optional<Any>, Optional<Any>) -> Bool>))
-    }
-    
-    
-    func compare(_ lhs: T, _ rhs: T) -> Bool {
-        return true
+        self.q = _PriorityQueue<AnyObject>(_Function<AnyObject>(cmp));
     }
     
     func push(_ value: T) {

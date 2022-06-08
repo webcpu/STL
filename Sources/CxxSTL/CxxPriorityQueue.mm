@@ -11,14 +11,12 @@
 #include "CxxPriorityQueue.hpp"
 #import "STL-Swift.h"
 
-//#import <Foundation/Foundation.h>
-
 using namespace std;
 
 bool numberComparator(id a, id b) {
     NSNumber *a1 = static_cast<NSNumber *>(a);
     NSNumber *b1 = static_cast<NSNumber *>(b);
-    return a1.intValue < b1.intValue;
+    return [a1 isGreaterThan:b1];
 }
 
 bool stringComparator(id a, id b) {
@@ -40,9 +38,8 @@ bool numberStringComparator(id a, id b) {
     }
 }
 
-
-struct CompareHeight {
-    CompareHeight(const function<bool(id, id)> _compare = numberStringComparator)
+struct Comparator {
+    Comparator(const function<bool(id, id)> _compare = numberStringComparator)
     :compare(_compare)
     {}
     
@@ -55,7 +52,6 @@ struct CompareHeight {
 };
 
 @interface _Function()
-//@property (nonatomic) priority_queue<id, vector<id>, CompareHeight> q;
 @end
 
 @implementation _Function
@@ -63,17 +59,7 @@ struct CompareHeight {
     self = [super init];
     
     if (self) {
-//        function<bool(id, id)> compare = [](id a, id b) {
-//            if ([a isMemberOfClass:[NSNumber class]]) {
-//                return numberComparator(a, b);
-//            } else {
-//                return stringComparator(a, b);
-//            }
-//        };
         _compareCompletion = completion;
-        
-//        CompareHeight ch(compare);
-//        _q = priority_queue<id, vector<id>, CompareHeight>(ch);
     }
     
     return self;
@@ -81,52 +67,27 @@ struct CompareHeight {
 @end
 
 @interface _PriorityQueue()
-@property (nonatomic) priority_queue<id, vector<id>, CompareHeight> q;
+@property (nonatomic) priority_queue<id, vector<id>, Comparator> q;
 @end
 
 @implementation _PriorityQueue
 
-//- (instancetype)init {
-//    self = [super init];
-//
-//    if (self) {
-////        auto compare = [](auto a, auto b){ return a < b;};
-////        _q = priority_queue<id, vector<id>, compare>();
-////        cout << id << endl;
-//        _q = priority_queue<id>();
-//    }
-//
-//    return self;
-//}
-
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _compareCompletion = numberStringComparator;
-        CompareHeight ch(_compareCompletion);
-        _q = priority_queue<id, vector<id>, CompareHeight>(ch);
+        Comparator comparator(numberStringComparator);
+        _q = priority_queue<id, vector<id>, Comparator>(comparator);
         
     }
     return self;
 }
 
 - (instancetype)init:(_Function *)fo {
-    //- (instancetype)init:(CompareCompletion)completion {
     self = [super init];
     
     if (self) {
-        function<bool(id, id)> compare = [](id a, id b) {
-            if ([a isMemberOfClass:[NSNumber class]]) {
-                return numberComparator(a, b);
-            } else {
-                return stringComparator(a, b);
-            }
-        };
-        _compareCompletion = [fo compareCompletion];
-        
-        //        CompareHeight ch(compare);
-        CompareHeight ch(_compareCompletion);
-        _q = priority_queue<id, vector<id>, CompareHeight>(ch);
+        Comparator comparator([fo compareCompletion]);
+        _q = priority_queue<id, vector<id>, Comparator>(comparator);
     }
     
     return self;
