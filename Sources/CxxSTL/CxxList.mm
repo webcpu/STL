@@ -62,7 +62,7 @@ using namespace std;
 }
 
 - (int)count {
-    return _q.size();
+    return int(_q.size());
 }
 
 - (bool)empty {

@@ -14,6 +14,8 @@
 extern "C" {
 #endif
 
+#import "FunctionObject.hpp"
+
 #import "CxxIterator.hpp"
 
 #import "CxxQueue.hpp"
@@ -23,6 +25,8 @@ extern "C" {
 #import "CxxDeque.hpp"
 
 #import "CxxPriorityQueue.hpp"
+#import "CxxMap.hpp"
+#import "CxxSet.hpp"
 
 #ifdef __cplusplus
 }

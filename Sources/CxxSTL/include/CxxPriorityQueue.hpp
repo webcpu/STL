@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #import <Foundation/Foundation.h>
+#import "FunctionObject.hpp"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -21,14 +22,6 @@ extern "C" {
 //        return lhs < rhs
 //    }
 //}
-
-@interface _Function<Any> : NSObject
-typedef bool (*CompareCompletion)(Any a, Any b);
-@property (nonatomic) CompareCompletion compareCompletion;
-
-- (instancetype)init:(CompareCompletion)completion;
-
-@end
 
 @interface _PriorityQueue<Any> : NSObject
 typedef bool (*CompareCompletion)(Any a, Any b);

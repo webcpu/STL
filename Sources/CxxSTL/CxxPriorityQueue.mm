@@ -13,59 +13,6 @@
 
 using namespace std;
 
-bool numberComparator(id a, id b) {
-    NSNumber *a1 = static_cast<NSNumber *>(a);
-    NSNumber *b1 = static_cast<NSNumber *>(b);
-    return [a1 isGreaterThan:b1];
-}
-
-bool stringComparator(id a, id b) {
-    NSString *a1 = static_cast<NSString *>(a);
-    NSString *b1 = static_cast<NSString *>(b);
-    NSComparisonResult r = [a1 compare:b1];
-    if (r == NSOrderedAscending) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool numberStringComparator(id a, id b) {
-    if ([a isMemberOfClass:[NSNumber class]]) {
-        return numberComparator(a, b);
-    } else {
-        return stringComparator(a, b);
-    }
-}
-
-struct Comparator {
-    Comparator(const function<bool(id, id)> _compare = numberStringComparator)
-    :compare(_compare)
-    {}
-    
-    bool operator()(id a, id b) {
-        return compare(a, b);
-    }
-    
-    function<bool(id, id)> compare;
-    FunctionObject* fo = nullptr;
-};
-
-@interface _Function()
-@end
-
-@implementation _Function
-- (instancetype)init:(CompareCompletion)completion {
-    self = [super init];
-    
-    if (self) {
-        _compareCompletion = completion;
-    }
-    
-    return self;
-}
-@end
-
 @interface _PriorityQueue()
 @property (nonatomic) priority_queue<id, vector<id>, Comparator> q;
 @end
@@ -112,7 +59,7 @@ struct Comparator {
 }
 
 - (int)count {
-    return _q.size();
+    return int(_q.size());
 }
 
 - (bool)empty {

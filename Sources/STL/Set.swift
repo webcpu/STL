@@ -17,77 +17,114 @@ fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
     }
 }
 
-public class PriorityQueue<T: Comparable>: NSObject {
-    private var q: _PriorityQueue<AnyObject>
+public class Set<T: Comparable>: NSObject {
+    private var q: _Set<AnyObject>
     init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = compareFunction) {
-        self.q = _PriorityQueue<AnyObject>(_Function<AnyObject>(cmp));
+                self.q = _Set<AnyObject>(cmp);
+
     }
     
-    func push(_ value: T) {
+    func insert(_ value: T) {
         switch value {
         case is Bool:
             let number: NSNumber = NSNumber(value: value as! Bool)
-            q.push(number)
+            q.insert(number)
             
         case is CChar:
             let number: NSNumber = NSNumber(value: value as! CChar)
-            q.push(number)
-            
+            q.insert(number)
+
         case is Float:
             let number: NSNumber = NSNumber(value: value as! Float)
-            q.push(number)
-            
+            q.insert(number)
+
         case is Double:
             let number: NSNumber = NSNumber(value: value as! Double)
-            q.push(number)
-            
+            q.insert(number)
+
         case is Int:
             let number: NSNumber = NSNumber(value: value as! Int)
-            q.push(number)
+            q.insert(number)
+
         case is Int8:
             let number: NSNumber = NSNumber(value: value as! Int8)
-            q.push(number)
+            q.insert(number)
+
         case is Int16:
             let number: NSNumber = NSNumber(value: value as! Int16)
-            q.push(number)
+            q.insert(number)
+
         case is Int32:
             let number: NSNumber = NSNumber(value: value as! Int32)
-            q.push(number)
+            q.insert(number)
+
         case is Int64:
             let number: NSNumber = NSNumber(value: value as! Int64)
-            q.push(number)
-            
+            q.insert(number)
+
         case is UInt:
             let number: NSNumber = NSNumber(value: value as! UInt)
-            q.push(number)
+            q.insert(number)
+
         case is UInt8:
             let number: NSNumber = NSNumber(value: value as! UInt8)
-            q.push(number)
+            q.insert(number)
+
         case is UInt16:
             let number: NSNumber = NSNumber(value: value as! UInt16)
-            q.push(number)
+            q.insert(number)
         case is UInt32:
             let number: NSNumber = NSNumber(value: value as! UInt32)
-            q.push(number)
+            q.insert(number)
         case is UInt64:
             let number: NSNumber = NSNumber(value: value as! UInt64)
-            q.push(number)
+            q.insert(number)
         default:
-            q.push(value as AnyObject)
+            q.insert(value)
         }
-    }
-    
-    func top() -> T {
-        precondition(!q.empty())
-        return q.top() as! T
-    }
-    
-    func pop() {
-        q.pop()
     }
     
     var count: Int {Int(q.count())}
     
     var empty: Bool {q.empty()}
     var isEmpty: Bool {q.empty()}
+    
+    func nth(_ index: Int) -> T {
+        let v: T = q.nth(Int32(index)) as! T
+        return v
+    }
+    
+    func begin() -> Int {
+        return Int(q.begin())
+    }
+    
+    func end() -> Int {
+        return Int(q.end())
+    }
+}
+
+extension Set: Sequence {
+    public func makeIterator() -> some IteratorProtocol {
+        return SetIterator<T>(self)
+    }
+}
+
+struct SetIterator<T: Comparable>: IteratorProtocol {
+    private let set: Set<T>
+    private var index = 0
+    
+    typealias Element = T
+    init(_ set: Set<T>) {
+        self.set = set
+    }
+    
+    mutating func next() -> Element? {
+        if index != set.end() {
+            let value: Element = set.nth(index)
+            index += 1;
+            return value
+        } else {
+            return nil
+        }
+    }
 }
