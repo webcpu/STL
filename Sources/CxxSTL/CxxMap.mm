@@ -17,8 +17,6 @@ function<bool(id, id)> mapComparator = [](id a, id b) { return numberStringCompa
 
 @interface _Map()
 @property (nonatomic) map<id, id,decltype(mapComparator) > q;
-//@property (nonatomic) map<id, id> q;
-//@property (nonatomic) CompareCompletion compareCompletion;
 @end
 
 @implementation _Map
@@ -37,12 +35,6 @@ function<bool(id, id)> mapComparator = [](id a, id b) { return numberStringCompa
     self = [super init];
     
     if (self) {
-//        _compareCompletion = f;
-//        function<bool(id, id)> cmp = [self](id a, id b){
-//            id lhs = a;
-//            id rhs = b;
-//            return self.compareCompletion(lhs, rhs);
-//        };
         _q = map<id, id, decltype(mapComparator)>{f};
     }
     
@@ -50,7 +42,7 @@ function<bool(id, id)> mapComparator = [](id a, id b) { return numberStringCompa
 }
 
 
-- (void)push:(NSArray*)pair {
+- (void)insert:(NSArray*)pair {
     _q.insert({pair[0], pair[1]});
 }
 
@@ -79,7 +71,7 @@ function<bool(id, id)> mapComparator = [](id a, id b) { return numberStringCompa
 }
 
 - (int)end {
-    return std::distance(_q.begin(), _q.end());
+    return int(std::distance(_q.begin(), _q.end()));
 }
 
 - (int)next:(int)index {

@@ -20,7 +20,7 @@ extern "C" {
 //typedef bool (*CompareCompletion)(KeyType a, KeyType b);
 //- (instancetype)init:(_Function *)fo;
 - (instancetype)init:(CompareCompletion)f;
-- (void)push:(NSArray *)pair;
+- (void)insert:(NSArray *)pair;
 - (int)count;
 - (bool)empty;
 - (int)begin;

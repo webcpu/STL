@@ -18,71 +18,71 @@ class MapTests: XCTestCase {
     }
     
     func testEmpty() throws {
-        let queue = Map<Int, Int>()
-        XCTAssertEqual(true, queue.empty)
-        queue.insert((1,2))
-        queue.insert((2, 3))
-        XCTAssertEqual(false, queue.empty)
+        let m = Map<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m.insert((1,2))
+        m.insert((2, 3))
+        XCTAssertEqual(false, m.empty)
     }
     
     func testCount() throws {
-        let queue = Map<Int, Int>()
-        XCTAssertEqual(true, queue.empty)
-        queue.insert((1,2))
-        queue.insert((2, 3))
-        XCTAssertEqual(2, queue.count)
+        let m = Map<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m.insert((1,2))
+        m.insert((2, 3))
+        XCTAssertEqual(2, m.count)
     }
     
     func testSequence() throws {
-        let queue = Map<Int, Int>()
-        XCTAssertEqual(true, queue.empty)
-        queue.insert((7, 2))
-        queue.insert((2, 3))
-        queue.insert((4, 5))
-        for p in queue {
-            print(p)
-        }
+        let m = Map<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m.insert((7, 2))
+        m.insert((2, 3))
+        m.insert((4, 5))
         
-        for p in queue {
-            print(p)
-        }
-//        XCTAssertEqual(2, queue[7])
-//        XCTAssertEqual(3, queue[2])
-//        XCTAssertEqual(5, queue[4])
+        XCTAssertEqual(m.keys, [2,4,7])
     }
     
     func testInsert1() throws {
-        let queue = Map<Int, Int>()
-        XCTAssertEqual(true, queue.empty)
-        queue.insert((7, 2))
-        queue.insert((2, 3))
-        queue.insert((4, 5))
-        XCTAssertEqual(2, queue[7])
-        XCTAssertEqual(3, queue[2])
-        XCTAssertEqual(5, queue[4])
+        let m = Map<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m.insert((7, 2))
+        m.insert((2, 3))
+        m.insert((4, 5))
+        XCTAssertEqual(2, m[7])
+        XCTAssertEqual(3, m[2])
+        XCTAssertEqual(5, m[4])
     }
     
     func testInsert2() throws {
-        let queue = Map<Int, Int>()
-        XCTAssertEqual(true, queue.empty)
-        queue[7] = 2
-        queue[2] = 3
-        queue[4] = 5
-        XCTAssertEqual(2, queue[7])
-        XCTAssertEqual(3, queue[2])
-        XCTAssertEqual(5, queue[4])
+        let m = Map<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m[7] = 2
+        m[2] = 3
+        m[4] = 5
+        XCTAssertEqual(2, m[7])
+        XCTAssertEqual(3, m[2])
+        XCTAssertEqual(5, m[4])
     }
     
     func testKeys() throws {
-        let queue = Map<Int, Int>()
-        XCTAssertEqual(true, queue.empty)
-        queue.insert((7, 2))
-        queue.insert((2, 3))
-        queue.insert((4, 3))
-        XCTAssertEqual([2,4,7], queue.keys)
+        let m = Map<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m.insert((7, 2))
+        m.insert((2, 3))
+        m.insert((4, 3))
+        XCTAssertEqual([2,4,7], m.keys)
+    }
+    
+    func testValues() throws {
+        let m = Map<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m.insert((7, 2))
+        m.insert((2, 3))
+        m.insert((4, 3))
+        XCTAssertEqual([3, 3, 2], m.values)
     }
 
-    
 //    func testBool() throws {
 //        let expects: [Bool] = [true, false, true]
 //        verifyMap(expects)
@@ -169,21 +169,21 @@ class MapTests: XCTestCase {
     }
     
     func verifyMap<K: Comparable, V>(_ inputs: [(K, V)]) {
-        let queue = Map<K, V>({(_ a: Any, _ b: Any) -> Bool in compareKey(a, b)})
-        XCTAssertTrue(queue.empty)
+        let m = Map<K, V>({(_ a: Any, _ b: Any) -> Bool in compareKey(a, b)})
+        XCTAssertTrue(m.empty)
 
         for input in inputs {
             let k: K = input.0
             let v: V = input.1
-            queue[k] = v
+            m[k] = v
         }
 
         let expects = inputs.sorted(by: {$0.0 < $1.0})
-        XCTAssertTrue(!queue.empty)
-        XCTAssertEqual(queue.count, expects.count)
+        XCTAssertTrue(!m.empty)
+        XCTAssertEqual(m.count, expects.count)
         print(expects)
-        for i in 0..<queue.count {
-            let t: (K, V) = queue.nth(i)
+        for i in 0..<m.count {
+            let t: (K, V) = m.nth(i)
             print(expects[i])
             XCTAssertEqual(expects[i].0, t.0)
         }

@@ -66,7 +66,7 @@ function<bool(id, id)> setComparator = [](id a, id b) { return numberStringCompa
 }
 
 - (int)end {
-    return std::distance(_q.begin(), _q.end());
+    return int(std::distance(_q.begin(), _q.end()));
 }
 
 - (int)next:(int)index {
