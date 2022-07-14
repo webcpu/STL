@@ -12,7 +12,7 @@
 using namespace std;
 
 @interface _ForwardList()
-@property (nonatomic) forward_list<id> q;
+@property (nonatomic) forward_list<id> l;
 @end
     
 @implementation _ForwardList
@@ -21,19 +21,19 @@ using namespace std;
     self = [super init];
     
     if (self) {
-        _q = forward_list<id>();
+        _l = forward_list<id>();
     }
     
     return self;
 }
 
 - (void)push_front:(id)value {
-    _q.push_front(value);
+    _l.push_front(value);
 }
 
 - (id)front {
-    if (!self.q.empty()) {
-        id value = _q.front();
+    if (!self.l.empty()) {
+        id value = _l.front();
         return value;
     }
     
@@ -41,11 +41,15 @@ using namespace std;
 }
 
 - (void)pop_front {
-    _q.pop_front();
+    _l.pop_front();
+}
+
+- (bool)contains:(id)value {
+    return (std::find(_l.begin(), _l.end(), value) != _l.end());
 }
 
 - (bool)empty {
-    return _q.empty();
+    return _l.empty();
 }
 
 - (NSString *)description {

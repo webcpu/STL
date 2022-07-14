@@ -61,6 +61,10 @@ using namespace std;
     _q.pop_front();
 }
 
+- (bool)contains:(id)value {
+    return (std::find(_q.begin(), _q.end(), value) != _q.end());
+}
+
 - (int)count {
     return int(_q.size());
 }

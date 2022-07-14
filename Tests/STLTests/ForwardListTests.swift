@@ -1,5 +1,5 @@
 //
-//  ForwardList.swift
+//  ForwardListTests.swift
 //  
 //
 //  Created by liang on 2022-06-05.
@@ -31,6 +31,16 @@ class ForwardListTests: XCTestCase {
         XCTAssertEqual(1, queue.front())
         queue.push_front(2)
         XCTAssertEqual(2, queue.front())
+    }
+    
+    func testContains() throws {
+        let queue = ForwardList<Int>()
+        queue.push_front(1)
+        XCTAssertEqual(1, queue.front())
+        queue.push_front(2)
+        XCTAssertEqual(true, queue.contains(1))
+        XCTAssertEqual(true, queue.contains(2))
+        XCTAssertEqual(false, queue.contains(3))
     }
     
     func testBool() throws {

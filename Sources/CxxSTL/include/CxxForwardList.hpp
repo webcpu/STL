@@ -20,6 +20,7 @@ extern "C" {
 - (Any)front;
 - (void)pop_front;
 - (bool)empty;
+- (bool)contains:(id)value;
 @end
 
 #ifdef __cplusplus

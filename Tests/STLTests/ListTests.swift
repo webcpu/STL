@@ -1,5 +1,5 @@
 //
-//  List.swift
+//  ListTests.swift
 //  
 //
 //  Created by liang on 2022-06-05.
@@ -18,34 +18,42 @@ class ListTests: XCTestCase {
     }
     
     func testEmpty() throws {
-        let queue = List<Int>()
-        XCTAssertEqual(true, queue.empty)
-        queue.push_back(1)
-        queue.push_back(2)
-        XCTAssertEqual(false, queue.empty)
+        let list = List<Int>()
+        XCTAssertEqual(true, list.empty)
+        list.push_back(1)
+        list.push_back(2)
+        XCTAssertEqual(false, list.empty)
     }
     
     func testCount() throws {
-        let queue = List<Int>()
-        queue.push_back(1)
-        queue.push_back(2)
-        XCTAssertEqual(2, queue.count)
+        let list = List<Int>()
+        list.push_back(1)
+        list.push_back(2)
+        XCTAssertEqual(2, list.count)
+    }
+    
+    func testContains() throws {
+        let list = List<Int>()
+        list.push_back(1)
+        list.push_back(2)
+        XCTAssertEqual(true, list.contains(2))
+        XCTAssertEqual(false, list.contains(5))
     }
     
     func testFront() throws {
-        let queue = List<Int>()
-        queue.push_front(1)
-        XCTAssertEqual(1, queue.front())
-        queue.push_front(2)
-        XCTAssertEqual(2, queue.front())
+        let list = List<Int>()
+        list.push_front(1)
+        XCTAssertEqual(1, list.front())
+        list.push_front(2)
+        XCTAssertEqual(2, list.front())
     }
     
     func testBack() throws {
-        let queue = List<Int>()
-        queue.push_back(1)
-        XCTAssertEqual(1, queue.back())
-        queue.push_back(2)
-        XCTAssertEqual(2, queue.back())
+        let list = List<Int>()
+        list.push_back(1)
+        XCTAssertEqual(1, list.back())
+        list.push_back(2)
+        XCTAssertEqual(2, list.back())
     }
     
     func testBool() throws {
@@ -129,39 +137,37 @@ class ListTests: XCTestCase {
     }
     
     func verifyList<T: Equatable>(_ expects: [T]) {
-        let queue = List<T>()
-        XCTAssertTrue(queue.empty)
+        let list = List<T>()
+        XCTAssertTrue(list.empty)
         
         for (i, obj) in expects.enumerated() {
-            queue.push_back(obj)
-            XCTAssertEqual(expects[i], queue.back())
+            list.push_back(obj)
+            XCTAssertEqual(expects[i], list.back())
         }
         
-        XCTAssertTrue(!queue.empty)
-        XCTAssertEqual(queue.count, expects.count)
-        for i in Array(0..<queue.count).reversed() {
-            let t: T = queue.back()
-            queue.pop_back()
+        XCTAssertTrue(!list.empty)
+        XCTAssertEqual(list.count, expects.count)
+        for i in Array(0..<list.count).reversed() {
+            let t: T = list.back()
+            list.pop_back()
             XCTAssertEqual(expects[i], t)
         }
-        XCTAssertEqual(queue.count, 0)
-        XCTAssertTrue(queue.empty)
+        XCTAssertEqual(list.count, 0)
+        XCTAssertTrue(list.empty)
         
         for (i, obj) in expects.enumerated() {
-            queue.push_front(obj)
-            XCTAssertEqual(expects[i], queue.front())
+            list.push_front(obj)
+            XCTAssertEqual(expects[i], list.front())
         }
         
-        XCTAssertTrue(!queue.empty)
-        XCTAssertEqual(queue.count, expects.count)
-        for i in Array(0..<queue.count).reversed() {
-            let t: T = queue.front()
-            queue.pop_front()
+        XCTAssertTrue(!list.empty)
+        XCTAssertEqual(list.count, expects.count)
+        for i in Array(0..<list.count).reversed() {
+            let t: T = list.front()
+            list.pop_front()
             XCTAssertEqual(expects[i], t)
         }
-        XCTAssertEqual(queue.count, 0)
-        XCTAssertTrue(queue.empty)
-        
-        
+        XCTAssertEqual(list.count, 0)
+        XCTAssertTrue(list.empty)
     }
 }
