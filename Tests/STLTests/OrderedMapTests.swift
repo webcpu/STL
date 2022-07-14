@@ -1,5 +1,5 @@
 //
-//  Map.swift
+//  OrderedMapTests.swift
 //  
 //
 //  Created by liang on 2022-06-05.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import STL
 
-class MapTests: XCTestCase {
+class OrderedMapTests: XCTestCase {
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -18,23 +18,23 @@ class MapTests: XCTestCase {
     }
     
     func testEmpty() throws {
-        let m = Map<Int, Int>()
+        let m = OrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
-        m.insert((1,2))
+        m.insert((1, 2))
         m.insert((2, 3))
         XCTAssertEqual(false, m.empty)
     }
     
     func testCount() throws {
-        let m = Map<Int, Int>()
+        let m = OrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
-        m.insert((1,2))
+        m.insert((1, 2))
         m.insert((2, 3))
         XCTAssertEqual(2, m.count)
     }
     
     func testSequence() throws {
-        let m = Map<Int, Int>()
+        let m = OrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
@@ -44,7 +44,7 @@ class MapTests: XCTestCase {
     }
     
     func testInsert1() throws {
-        let m = Map<Int, Int>()
+        let m = OrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
@@ -55,7 +55,7 @@ class MapTests: XCTestCase {
     }
     
     func testInsert2() throws {
-        let m = Map<Int, Int>()
+        let m = OrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m[7] = 2
         m[2] = 3
@@ -63,10 +63,12 @@ class MapTests: XCTestCase {
         XCTAssertEqual(2, m[7])
         XCTAssertEqual(3, m[2])
         XCTAssertEqual(5, m[4])
+        XCTAssertEqual(m.keys, [2, 4, 7])
+        XCTAssertEqual(m.values, [3, 5, 2])
     }
     
     func testKeys() throws {
-        let m = Map<Int, Int>()
+        let m = OrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
@@ -75,7 +77,7 @@ class MapTests: XCTestCase {
     }
     
     func testValues() throws {
-        let m = Map<Int, Int>()
+        let m = OrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
@@ -169,7 +171,7 @@ class MapTests: XCTestCase {
     }
     
     func verifyMap<K: Comparable, V>(_ inputs: [(K, V)]) {
-        let m = Map<K, V>({(_ a: Any, _ b: Any) -> Bool in compareKey(a, b)})
+        let m = OrderedMap<K, V>({(_ a: Any, _ b: Any) -> Bool in compareKey(a, b)})
         XCTAssertTrue(m.empty)
 
         for input in inputs {

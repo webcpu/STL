@@ -1,5 +1,5 @@
 //
-//  Map.swift
+//  OrderedSetTests.swift
 //  
 //
 //  Created by liang on 2022-06-05.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import STL
 
-class SetTests: XCTestCase {
+class OrderedSetTests: XCTestCase {
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -18,46 +18,49 @@ class SetTests: XCTestCase {
     }
     
     func testEmpty() throws {
-        let queue = STL.Set<Int>()
-        XCTAssertEqual(true, queue.empty)
-        queue.insert(3)
-        queue.insert(2);
-        XCTAssertEqual(false, queue.empty)
+        let set = STL.OrderedSet<Int>()
+        XCTAssertEqual(true, set.empty)
+        set.insert(3)
+        set.insert(2);
+        XCTAssertEqual(false, set.empty)
     }
     
     func testCount() throws {
-        let queue = STL.Set<Int>()
-        XCTAssertEqual(true, queue.empty)
-        queue.insert(3)
-        queue.insert(2)
-        XCTAssertEqual(2, queue.count)
+        let set = STL.OrderedSet<Int>()
+        XCTAssertEqual(true, set.empty)
+        set.insert(3)
+        set.insert(2)
+        XCTAssertEqual(2, set.count)
     }
     
     func testSequence() throws {
-        let queue = STL.Set<Int>()
-        XCTAssertEqual(true, queue.empty)
-        queue.insert(7)
-        queue.insert(2)
-        queue.insert(4)
+        let set = STL.OrderedSet<Int>()
+        XCTAssertEqual(true, set.empty)
+        set.insert(7)
+        set.insert(2)
+        set.insert(4)
         var i = 0;
         let expect = [2, 4, 7]
-        for x in queue {
+        for x in set {
             XCTAssertEqual(x, expect[i])
             i += 1
         }
     }
     
     func testInsert1() throws {
-        let queue = STL.Set<Int>()
-        XCTAssertEqual(true, queue.empty)
-        queue.insert(7)
-        queue.insert(2)
-        queue.insert(4)
-//        XCTAssertEqual(2, queue[7])
-//        XCTAssertEqual(3, queue[2])
-//        XCTAssertEqual(5, queue[4])
+        let set = STL.OrderedSet<Int>({(_ a: Any, _ b: Any) -> Bool in (a as! Int) > (b as! Int)})
+        XCTAssertEqual(true, set.empty)
+        set.insert(7)
+        set.insert(2)
+        set.insert(2)
+        set.insert(6)
+        var i = 0;
+        let expect = [7, 6, 2]
+        for x in set {
+            XCTAssertEqual(x, expect[i])
+            i += 1
+        }
     }
-    
     
 //    func testBool() throws {
 //        let expects: [Bool] = [true, false, true]
@@ -145,19 +148,19 @@ class SetTests: XCTestCase {
     }
     
     func verify<T: Comparable>(_ inputs: [T]) {
-        let queue = STL.Set<T>({(_ a: Any, _ b: Any) -> Bool in compareKey(a, b)})
-        XCTAssertTrue(queue.empty)
+        let set = STL.OrderedSet<T>({(_ a: Any, _ b: Any) -> Bool in compareKey(a, b)})
+        XCTAssertTrue(set.empty)
 
         for elem in inputs {
-            queue.insert(elem)
+            set.insert(elem)
         }
 
         let expects = inputs.sorted(by: {$0 < $1})
-        XCTAssertTrue(!queue.empty)
-        XCTAssertEqual(queue.count, expects.count)
+        XCTAssertTrue(!set.empty)
+        XCTAssertEqual(set.count, expects.count)
         print(expects)
-        for i in 0..<queue.count {
-            let t: T = queue.nth(i)
+        for i in 0..<set.count {
+            let t: T = set.nth(i)
             print(expects[i])
             XCTAssertEqual(expects[i], t)
         }

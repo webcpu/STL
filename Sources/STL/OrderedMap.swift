@@ -2,87 +2,85 @@ import CxxSTL
 
 fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
     precondition(type(of: a) == (type(of: b)))
-    print(type(of:a))
     switch a {
     case is NSNumber:
-    let lhs = a as! NSNumber
-    let rhs = b as! NSNumber
+        let lhs = a as! NSNumber
+        let rhs = b as! NSNumber
         return lhs.isLessThan(rhs)
     case is NSString:
-    let lhs = a as! NSString
-    let rhs = b as! NSString
+        let lhs = a as! NSString
+        let rhs = b as! NSString
         return lhs.isLessThan(rhs)
     default:
         return true
     }
 }
 
-public class Set<T: Comparable>: NSObject {
-    private var q: _Set<AnyObject>
-    private var _index = 0
-    
+public class OrderedMap<K: Comparable, V: Any>: NSObject {
+    private var q: _Map<AnyObject, AnyObject>
     init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = compareFunction) {
-        self.q = _Set<AnyObject>(cmp);
-        _index = 0;
+        self.q = _Map<AnyObject, AnyObject>(cmp);
+        
     }
     
-    func insert(_ value: T) {
-        switch value {
+    func insert(_ pair: (K, V)) {
+        let (key, value): (K, V) = pair
+        switch key {
         case is Bool:
             let number: NSNumber = NSNumber(value: value as! Bool)
-            q.insert(number)
+            q.insert([key, number])
             
         case is CChar:
             let number: NSNumber = NSNumber(value: value as! CChar)
-            q.insert(number)
+            q.insert([key, number])
             
         case is Float:
             let number: NSNumber = NSNumber(value: value as! Float)
-            q.insert(number)
+            q.insert([key, number])
             
         case is Double:
             let number: NSNumber = NSNumber(value: value as! Double)
-            q.insert(number)
+            q.insert([key, number])
             
         case is Int:
             let number: NSNumber = NSNumber(value: value as! Int)
-            q.insert(number)
+            q.insert([key, number])
             
         case is Int8:
             let number: NSNumber = NSNumber(value: value as! Int8)
-            q.insert(number)
+            q.insert([key, number])
             
         case is Int16:
             let number: NSNumber = NSNumber(value: value as! Int16)
-            q.insert(number)
+            q.insert([key, number])
             
         case is Int32:
             let number: NSNumber = NSNumber(value: value as! Int32)
-            q.insert(number)
+            q.insert([key, number])
             
         case is Int64:
             let number: NSNumber = NSNumber(value: value as! Int64)
-            q.insert(number)
+            q.insert([key, number])
             
         case is UInt:
             let number: NSNumber = NSNumber(value: value as! UInt)
-            q.insert(number)
+            q.insert([key, number])
             
         case is UInt8:
             let number: NSNumber = NSNumber(value: value as! UInt8)
-            q.insert(number)
+            q.insert([key, number])
             
         case is UInt16:
             let number: NSNumber = NSNumber(value: value as! UInt16)
-            q.insert(number)
+            q.insert([key, number])
         case is UInt32:
             let number: NSNumber = NSNumber(value: value as! UInt32)
-            q.insert(number)
+            q.insert([key, number])
         case is UInt64:
             let number: NSNumber = NSNumber(value: value as! UInt64)
-            q.insert(number)
+            q.insert([key, number])
         default:
-            q.insert(value)
+            q.insert([key, value as AnyObject])
         }
     }
     
@@ -91,9 +89,36 @@ public class Set<T: Comparable>: NSObject {
     var empty: Bool {q.empty()}
     var isEmpty: Bool {q.empty()}
     
-    func nth(_ index: Int) -> T {
-        let v: T = q.nth(Int32(index)) as! T
-        return v
+    var keys: [K] {
+        return q.keys() as! [K]
+    }
+    
+    var values: [V] {
+        var vs = [V]();
+        for key in self.keys {
+            vs.append(self[key]);
+        }
+        return vs;
+    }
+    
+    subscript(index: K) -> V {
+        get {
+            return q.at(index) as! V
+        }
+        set(newValue) {
+            q.insert([index, newValue])
+        }
+    }
+    
+    func erase(_ key: K) {
+        q.erase(key)
+    }
+    
+    func nth(_ index: Int) -> (K, V) {
+        let pair: [Any] = q.nth(index);
+        let key: K = pair[0] as! K
+        let value: V = pair[1] as! V
+        return (key, value)
     }
     
     func begin() -> Int {
@@ -105,14 +130,26 @@ public class Set<T: Comparable>: NSObject {
     }
 }
 
-extension Set: Sequence, IteratorProtocol {
-    public typealias Element = T
+extension OrderedMap: Sequence {
+    public func makeIterator() -> some IteratorProtocol {
+        return MapIterator<K, V>(self)
+    }
+}
+
+struct MapIterator<K: Comparable, V>: IteratorProtocol {
+    private let map: OrderedMap<K, V>
+    private var index = 0
     
-    public func next() -> T? {
-        if _index != end() {
-            let value: T = nth(_index)
-            _index += 1;
-            return value
+    typealias Element = (K, V)
+    init(_ map: OrderedMap<K, V>) {
+        self.map = map
+    }
+    
+    mutating func next() -> Element? {
+        if index != map.end() {
+            let pair: Element = map.nth(index)
+            index += 1;
+            return pair
         } else {
             return nil
         }
