@@ -20,8 +20,10 @@ fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
 public class OrderedSet<T: Comparable>: NSObject {
     private var q: _Set<AnyObject>
     private var _index = 0
+    private var cmp: @convention(c) (Any, Any) -> Bool
     
     init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = compareFunction) {
+        self.cmp = compareFunction;
         self.q = _Set<AnyObject>(cmp);
         _index = 0;
     }
@@ -90,6 +92,55 @@ public class OrderedSet<T: Comparable>: NSObject {
     
     var empty: Bool {q.empty()}
     var isEmpty: Bool {q.empty()}
+    
+    
+    func intersection(_ s2: OrderedSet<T>) -> OrderedSet<T> {
+        let result = OrderedSet<T>(self.cmp)
+        for x in self {
+            if s2.contains(x) {
+                result.insert(x)
+            }
+        }
+        return result
+    }
+    
+    func union(_ s2: OrderedSet<T>) -> OrderedSet<T> {
+        let result = OrderedSet<T>(self.cmp)
+        for x in self {
+            result.insert(x)
+        }
+        
+        for x in s2 {
+            result.insert(x)
+        }
+        return result
+    }
+    
+    func subtraction(_ s2: OrderedSet<T>) -> OrderedSet<T> {
+        return self.complement(s2)
+    }
+    
+    func difference(_ s2: OrderedSet<T>) -> OrderedSet<T> {
+        return self.complement(s2)
+    }
+    
+    func complement(_ s2: OrderedSet<T>) -> OrderedSet<T> {
+        let result = OrderedSet<T>(self.cmp)
+        for x in self {
+            if !s2.contains(x) {
+                result.insert(x)
+            }
+        }
+        return result
+    }
+    
+    func contains(_ elem: T) -> Bool {
+        return q.contains(elem)
+    }
+    
+    func erase(_ key: T) {
+        q.erase(key)
+    }
     
     func nth(_ index: Int) -> T {
         let v: T = q.nth(Int32(index)) as! T

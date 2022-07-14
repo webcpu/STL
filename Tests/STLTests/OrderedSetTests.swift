@@ -25,6 +25,15 @@ class OrderedSetTests: XCTestCase {
         XCTAssertEqual(false, set.empty)
     }
     
+    func testContains() throws {
+        let set = STL.OrderedSet<Int>()
+        XCTAssertEqual(true, set.empty)
+        set.insert(3)
+        set.insert(2)
+        XCTAssertEqual(true, set.contains(2))
+        XCTAssertEqual(false, set.contains(4))
+    }
+    
     func testCount() throws {
         let set = STL.OrderedSet<Int>()
         XCTAssertEqual(true, set.empty)
@@ -57,6 +66,75 @@ class OrderedSetTests: XCTestCase {
         var i = 0;
         let expect = [7, 6, 2]
         for x in set {
+            XCTAssertEqual(x, expect[i])
+            i += 1
+        }
+    }
+    
+    func testIntersection() throws {
+        let s1 = STL.OrderedSet<Int>({(_ a: Any, _ b: Any) -> Bool in (a as! Int) > (b as! Int)})
+        s1.insert(7)
+        s1.insert(2)
+        s1.insert(2)
+        s1.insert(6)
+        
+        let s2 = STL.OrderedSet<Int>({(_ a: Any, _ b: Any) -> Bool in (a as! Int) > (b as! Int)})
+        s2.insert(1)
+        s2.insert(2)
+        s2.insert(6)
+        s2.insert(4)
+        let s = s1.intersection(s2)
+        
+        var i = 0;
+        let expect = [2, 6]
+        
+        for x in s {
+            XCTAssertEqual(x, expect[i])
+            i += 1
+        }
+    }
+    
+    func testUnion() throws {
+        let s1 = STL.OrderedSet<Int>({(_ a: Any, _ b: Any) -> Bool in (a as! Int) > (b as! Int)})
+        s1.insert(7)
+        s1.insert(2)
+        s1.insert(2)
+        s1.insert(6)
+        
+        let s2 = STL.OrderedSet<Int>({(_ a: Any, _ b: Any) -> Bool in (a as! Int) > (b as! Int)})
+        s2.insert(1)
+        s2.insert(2)
+        s2.insert(6)
+        s2.insert(4)
+        let s = s1.union(s2)
+        
+        var i = 0;
+        let expect = [1, 2, 4, 6, 7]
+        
+        for x in s {
+            XCTAssertEqual(x, expect[i])
+            i += 1
+        }
+    }
+    
+    func testComplement() throws {
+        let s1 = STL.OrderedSet<Int>({(_ a: Any, _ b: Any) -> Bool in (a as! Int) > (b as! Int)})
+        s1.insert(7)
+        s1.insert(2)
+        s1.insert(2)
+        s1.insert(6)
+        
+        let s2 = STL.OrderedSet<Int>({(_ a: Any, _ b: Any) -> Bool in (a as! Int) > (b as! Int)})
+        s2.insert(1)
+        s2.insert(2)
+        s2.insert(6)
+        s2.insert(4)
+        let s = s1.complement(s2)
+        
+        var i = 0;
+        let expect = [7]
+        
+        for x in s {
             XCTAssertEqual(x, expect[i])
             i += 1
         }

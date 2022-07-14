@@ -17,8 +17,7 @@ function<bool(id, id)> setComparator = [](id a, id b) { return numberStringCompa
 
 @interface _Set()
 @property (nonatomic) set<id,decltype(setComparator) > q;
-//@property (nonatomic) map<id, id> q;
-//@property (nonatomic) CompareCompletion compareCompletion;
+@property (nonatomic) CompareCompletion compareFunction;
 @end
 
 @implementation _Set
@@ -27,6 +26,7 @@ function<bool(id, id)> setComparator = [](id a, id b) { return numberStringCompa
     self = [super init];
     if (self) {
         auto cmp = [](id a, id b){ return numberStringComparator(a, b);};
+        _compareFunction = cmp; //setComparator;
         _q = set<id, decltype(setComparator)>{setComparator};
     }
     return self;
@@ -36,6 +36,7 @@ function<bool(id, id)> setComparator = [](id a, id b) { return numberStringCompa
     self = [super init];
     
     if (self) {
+        _compareFunction = f;
         _q = set<id, decltype(setComparator)>{f};
     }
     
@@ -45,6 +46,26 @@ function<bool(id, id)> setComparator = [](id a, id b) { return numberStringCompa
 
 - (void)insert:(id)value {
     _q.insert(value);
+}
+
+- (bool)contains:(id)elem {
+    return _q.count(elem);
+}
+
+//- (NSMutableSet *)intersection:(_Set<id> *)set2 {
+//    auto s2 = set<id, decltype(setComparator)>{};
+//    s2.insert(set2.q.begin(), set2.q.end());
+//    auto r = set<id, decltype(setComparator)>{setComparator};
+//    NSMutableSet *result = [[NSMutableSet alloc] init];
+//    auto last = set_intersection(_q.begin(), _q.end(), s2.begin(), s2.end(), r.begin(), _compareFunction);
+//    for(auto it = r.begin(); it != last; ++it) {
+//        [result addObject: *it];
+//    }
+//    return result;
+//}
+
+- erase:(id)value{
+    _q.erase(value);
 }
 
 - (int)count {

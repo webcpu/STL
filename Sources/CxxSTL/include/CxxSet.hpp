@@ -18,12 +18,15 @@ extern "C" {
 @interface _Set<Any> : NSObject
 - (instancetype)init:(CompareCompletion)f;
 - (void)insert:(id)value;
+- (bool)contains:(id)value;
+//- (NSMutableSet *)intersection:(_Set<id> *)set2;
 - (int)count;
 - (bool)empty;
 - (int)begin;
 - (int)end;
 - (int)next:(int)index;
 - (id)at:(int)index;
+- erase:(id)value;
 - (id)nth:(int)index;
 @end
 
