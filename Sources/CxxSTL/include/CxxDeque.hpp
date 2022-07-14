@@ -24,6 +24,7 @@ extern "C" {
 - (void)pop_back;
 - (void)pop_front;
 - (int)count;
+- (bool)contains:(id)value;
 - (bool)empty;
 @end
 

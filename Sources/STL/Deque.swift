@@ -189,6 +189,10 @@ class Deque<T>: NSObject {
         q.pop_front()
     }
     
+    func contains(_ value: T) -> Bool {
+        return q.contains(value)
+    }
+    
     var count: Int {Int(q.count())}
     
     var empty: Bool {q.empty()}

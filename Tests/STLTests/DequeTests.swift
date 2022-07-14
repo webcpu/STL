@@ -1,5 +1,5 @@
 //
-//  Deque.swift
+//  DequeTests.swift
 //  
 //
 //  Created by liang on 2022-06-05.
@@ -30,6 +30,15 @@ class DequeTests: XCTestCase {
         queue.push_back(1)
         queue.push_back(2)
         XCTAssertEqual(2, queue.count)
+    }
+    
+    func testContains() throws {
+        let queue = Deque<Int>()
+        queue.push_back(1)
+        queue.push_back(2)
+        XCTAssertEqual(true, queue.contains(1))
+        XCTAssertEqual(true, queue.contains(1))
+        XCTAssertEqual(false, queue.contains(3))
     }
     
     func testFront() throws {
