@@ -52,6 +52,10 @@ function<bool(id, id)> mapComparator = [](id a, id b) { return numberStringCompa
     }
 }
 
+- (bool)contains:(id)key {
+    return _q.count(key);
+}
+
 - (int)count {
     return int(_q.size());
 }

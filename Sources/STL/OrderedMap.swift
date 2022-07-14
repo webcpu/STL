@@ -18,6 +18,8 @@ fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
 
 public class OrderedMap<K: Comparable, V: Any>: NSObject {
     private var q: _Map<AnyObject, AnyObject>
+    private var _index = 0
+
     init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = compareFunction) {
         self.q = _Map<AnyObject, AnyObject>(cmp);
         
@@ -101,12 +103,20 @@ public class OrderedMap<K: Comparable, V: Any>: NSObject {
         return vs;
     }
     
-    subscript(index: K) -> V {
+    subscript(index: K) -> V! {
         get {
-            return q.at(index) as! V
+            if q.contains(index) {
+                return q.at(index) as? V
+            } else {
+                return nil
+            }
         }
         set(newValue) {
-            q.insert([index, newValue])
+            if let value = newValue {
+                q.insert([index, value])
+            } else {
+                q.erase(index)
+            }
         }
     }
     
@@ -130,26 +140,14 @@ public class OrderedMap<K: Comparable, V: Any>: NSObject {
     }
 }
 
-extension OrderedMap: Sequence {
-    public func makeIterator() -> some IteratorProtocol {
-        return MapIterator<K, V>(self)
-    }
-}
-
-struct MapIterator<K: Comparable, V>: IteratorProtocol {
-    private let map: OrderedMap<K, V>
-    private var index = 0
+extension OrderedMap: Sequence, IteratorProtocol {
+    public typealias Element = (K, V)
     
-    typealias Element = (K, V)
-    init(_ map: OrderedMap<K, V>) {
-        self.map = map
-    }
-    
-    mutating func next() -> Element? {
-        if index != map.end() {
-            let pair: Element = map.nth(index)
-            index += 1;
-            return pair
+    public func next() -> (K, V)? {
+        if _index != end() {
+            let value: (K, V) = nth(_index)
+            _index += 1;
+            return value
         } else {
             return nil
         }

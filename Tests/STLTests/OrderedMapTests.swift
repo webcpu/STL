@@ -40,7 +40,13 @@ class OrderedMapTests: XCTestCase {
         m.insert((2, 3))
         m.insert((4, 5))
         
-        XCTAssertEqual(m.keys, [2,4,7])
+        var i = 0;
+        let expect = [(2, 3), (4, 5), (7, 2)]
+        for x in m {
+            XCTAssertEqual(x.0, expect[i].0)
+            XCTAssertEqual(x.1, expect[i].1)
+            i += 1
+        }
     }
     
     func testInsert1() throws {
@@ -65,6 +71,35 @@ class OrderedMapTests: XCTestCase {
         XCTAssertEqual(5, m[4])
         XCTAssertEqual(m.keys, [2, 4, 7])
         XCTAssertEqual(m.values, [3, 5, 2])
+    }
+    
+    func testErase1() throws {
+        let m = OrderedMap<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m.insert((7, 2))
+        m.insert((2, 3))
+        m.insert((4, 3))
+        m.erase(4);
+        XCTAssertEqual([2, 7], m.keys)
+    }
+    
+    func testErase2() throws {
+        let m = OrderedMap<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m[7] = 2
+        m[2] = 3
+        m[4] = 5
+        m[4] = nil;
+        XCTAssertEqual([2, 7], m.keys)
+    }
+    
+    func testContains() throws {
+        let m = OrderedMap<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m.insert((7, 2))
+        m.insert((2, 3))
+        m.insert((4, 3))
+        XCTAssertEqual(nil , m[3])
     }
     
     func testKeys() throws {

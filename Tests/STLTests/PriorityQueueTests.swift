@@ -156,10 +156,10 @@ fileprivate func compareF(_ a: Any, _ b: Any) -> Bool {
         let lhs = a as! CGPoint
         let rhs = b as! CGPoint
         return lhs < rhs
-//    case is Float:
-//        let lhs = a as! Float
-//        let rhs = b as! Float
-//        return lhs < rhs
+    case is Float:
+        let lhs = a as! Float
+        let rhs = b as! Float
+        return lhs < rhs
     case is String:
         let lhs = a as! String
         let rhs = b as! String
