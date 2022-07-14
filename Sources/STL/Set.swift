@@ -19,9 +19,11 @@ fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
 
 public class Set<T: Comparable>: NSObject {
     private var q: _Set<AnyObject>
+    private var _index = 0
+    
     init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = compareFunction) {
-                self.q = _Set<AnyObject>(cmp);
-
+        self.q = _Set<AnyObject>(cmp);
+        _index = 0;
     }
     
     func insert(_ value: T) {
@@ -33,43 +35,43 @@ public class Set<T: Comparable>: NSObject {
         case is CChar:
             let number: NSNumber = NSNumber(value: value as! CChar)
             q.insert(number)
-
+            
         case is Float:
             let number: NSNumber = NSNumber(value: value as! Float)
             q.insert(number)
-
+            
         case is Double:
             let number: NSNumber = NSNumber(value: value as! Double)
             q.insert(number)
-
+            
         case is Int:
             let number: NSNumber = NSNumber(value: value as! Int)
             q.insert(number)
-
+            
         case is Int8:
             let number: NSNumber = NSNumber(value: value as! Int8)
             q.insert(number)
-
+            
         case is Int16:
             let number: NSNumber = NSNumber(value: value as! Int16)
             q.insert(number)
-
+            
         case is Int32:
             let number: NSNumber = NSNumber(value: value as! Int32)
             q.insert(number)
-
+            
         case is Int64:
             let number: NSNumber = NSNumber(value: value as! Int64)
             q.insert(number)
-
+            
         case is UInt:
             let number: NSNumber = NSNumber(value: value as! UInt)
             q.insert(number)
-
+            
         case is UInt8:
             let number: NSNumber = NSNumber(value: value as! UInt8)
             q.insert(number)
-
+            
         case is UInt16:
             let number: NSNumber = NSNumber(value: value as! UInt16)
             q.insert(number)
@@ -103,25 +105,13 @@ public class Set<T: Comparable>: NSObject {
     }
 }
 
-extension Set: Sequence {
-    public func makeIterator() -> some IteratorProtocol {
-        return SetIterator<T>(self)
-    }
-}
-
-struct SetIterator<T: Comparable>: IteratorProtocol {
-    private let set: Set<T>
-    private var index = 0
+extension Set: Sequence, IteratorProtocol {
+    public typealias Element = T
     
-    typealias Element = T
-    init(_ set: Set<T>) {
-        self.set = set
-    }
-    
-    mutating func next() -> Element? {
-        if index != set.end() {
-            let value: Element = set.nth(index)
-            index += 1;
+    public func next() -> T? {
+        if _index != end() {
+            let value: T = nth(_index)
+            _index += 1;
             return value
         } else {
             return nil

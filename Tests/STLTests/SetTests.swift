@@ -39,16 +39,12 @@ class SetTests: XCTestCase {
         queue.insert(7)
         queue.insert(2)
         queue.insert(4)
-        for p in queue {
-            print(p)
+        var i = 0;
+        let expect = [2, 4, 7]
+        for x in queue {
+            XCTAssertEqual(x, expect[i])
+            i += 1
         }
-        
-        for p in queue {
-            print(p)
-        }
-//        XCTAssertEqual(2, queue[7])
-//        XCTAssertEqual(3, queue[2])
-//        XCTAssertEqual(5, queue[4])
     }
     
     func testInsert1() throws {
