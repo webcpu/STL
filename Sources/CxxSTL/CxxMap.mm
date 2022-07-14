@@ -46,6 +46,12 @@ function<bool(id, id)> mapComparator = [](id a, id b) { return numberStringCompa
     _q.insert({pair[0], pair[1]});
 }
 
+- (void)erase:(id)key {
+    if(_q.count(key)) {
+        _q.erase(key);
+    }
+}
+
 - (int)count {
     return int(_q.size());
 }

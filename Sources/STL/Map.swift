@@ -105,9 +105,13 @@ public class Map<K: Comparable, V: Any>: NSObject {
         get {
             return q.at(index) as! V
         }
-        set {
+        set(newValue) {
             q.insert([index, newValue])
         }
+    }
+    
+    func erase(_ key: K) {
+        q.erase(key)
     }
     
     func nth(_ index: Int) -> (K, V) {
