@@ -2,7 +2,6 @@ import CxxSTL
 
 fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
     precondition(type(of: a) == (type(of: b)))
-    print(type(of:a))
     switch a {
     case is NSNumber:
     let lhs = a as! NSNumber

@@ -21,6 +21,7 @@ extern "C" {
 //- (instancetype)init:(_Function *)fo;
 - (instancetype)init:(CompareCompletion)f;
 - (void)insert:(NSArray *)pair;
+- (void)erase:(id)key;
 - (int)count;
 - (bool)empty;
 - (int)begin;
