@@ -20,24 +20,24 @@ class ForwardListTests: XCTestCase {
     func testEmpty() throws {
         let queue = List<Int>()
         XCTAssertEqual(true, queue.empty)
-        queue.push_front(1)
-        queue.push_front(2)
+        queue.pushFront(1)
+        queue.pushFront(2)
         XCTAssertEqual(false, queue.empty)
     }
     
     func testFront() throws {
         let queue = ForwardList<Int>()
-        queue.push_front(1)
-        XCTAssertEqual(1, queue.front())
-        queue.push_front(2)
-        XCTAssertEqual(2, queue.front())
+        queue.pushFront(1)
+        XCTAssertEqual(1, queue.front)
+        queue.pushFront(2)
+        XCTAssertEqual(2, queue.front)
     }
     
     func testContains() throws {
         let queue = ForwardList<Int>()
-        queue.push_front(1)
-        XCTAssertEqual(1, queue.front())
-        queue.push_front(2)
+        queue.pushFront(1)
+        XCTAssertEqual(1, queue.front)
+        queue.pushFront(2)
         XCTAssertEqual(true, queue.contains(1))
         XCTAssertEqual(true, queue.contains(2))
         XCTAssertEqual(false, queue.contains(3))
@@ -128,15 +128,15 @@ class ForwardListTests: XCTestCase {
         
         XCTAssertTrue(queue.empty)
         for (i, obj) in expects.enumerated() {
-            queue.push_front(obj)
-            XCTAssertEqual(expects[i], queue.front())
+            queue.pushFront(obj)
+            XCTAssertEqual(expects[i], queue.front)
         }
         XCTAssertTrue(!queue.empty)
         
         var i = expects.count - 1
         while !queue.empty {
-            let t: T = queue.front()
-            queue.pop_front()
+            let t: T = queue.front
+            queue.popFront()
             XCTAssertEqual(expects[i], t)
             i -= 1
         }

@@ -56,4 +56,9 @@ using namespace std;
     return @"";
 }
 
+- (int)count {
+    return int(distance(_l.begin(), _l.end()));
+}
+
+
 @end

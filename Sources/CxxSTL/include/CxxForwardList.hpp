@@ -21,6 +21,7 @@ extern "C" {
 - (void)pop_front;
 - (bool)empty;
 - (bool)contains:(id)value;
+- (int)count;
 @end
 
 #ifdef __cplusplus

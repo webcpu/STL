@@ -73,7 +73,7 @@ public class Queue<T>: NSObject {
     }
    
     /// The next element in the queue.
-    /// The next element is the "oldest" element in the queue and the same element that is popped out from the queue when ``Queue/pop`` is called.
+    /// The next element is the "oldest" element in the queue and the same element that is popped out from the queue when ``Queue/pop()`` is called.
     public var front: T {
         precondition(!q.empty())
         return q.front() as! T

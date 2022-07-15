@@ -20,40 +20,40 @@ class ListTests: XCTestCase {
     func testEmpty() throws {
         let list = List<Int>()
         XCTAssertEqual(true, list.empty)
-        list.push_back(1)
-        list.push_back(2)
+        list.pushBack(1)
+        list.pushBack(2)
         XCTAssertEqual(false, list.empty)
     }
     
     func testCount() throws {
         let list = List<Int>()
-        list.push_back(1)
-        list.push_back(2)
+        list.pushBack(1)
+        list.pushBack(2)
         XCTAssertEqual(2, list.count)
     }
     
     func testContains() throws {
         let list = List<Int>()
-        list.push_back(1)
-        list.push_back(2)
+        list.pushBack(1)
+        list.pushBack(2)
         XCTAssertEqual(true, list.contains(2))
         XCTAssertEqual(false, list.contains(5))
     }
     
     func testFront() throws {
         let list = List<Int>()
-        list.push_front(1)
-        XCTAssertEqual(1, list.front())
-        list.push_front(2)
-        XCTAssertEqual(2, list.front())
+        list.pushFront(1)
+        XCTAssertEqual(1, list.front)
+        list.pushFront(2)
+        XCTAssertEqual(2, list.front)
     }
     
     func testBack() throws {
         let list = List<Int>()
-        list.push_back(1)
-        XCTAssertEqual(1, list.back())
-        list.push_back(2)
-        XCTAssertEqual(2, list.back())
+        list.pushBack(1)
+        XCTAssertEqual(1, list.back)
+        list.pushBack(2)
+        XCTAssertEqual(2, list.back)
     }
     
     func testBool() throws {
@@ -141,30 +141,30 @@ class ListTests: XCTestCase {
         XCTAssertTrue(list.empty)
         
         for (i, obj) in expects.enumerated() {
-            list.push_back(obj)
-            XCTAssertEqual(expects[i], list.back())
+            list.pushBack(obj)
+            XCTAssertEqual(expects[i], list.back)
         }
         
         XCTAssertTrue(!list.empty)
         XCTAssertEqual(list.count, expects.count)
         for i in Array(0..<list.count).reversed() {
-            let t: T = list.back()
-            list.pop_back()
+            let t: T = list.back
+            list.popBack()
             XCTAssertEqual(expects[i], t)
         }
         XCTAssertEqual(list.count, 0)
         XCTAssertTrue(list.empty)
         
         for (i, obj) in expects.enumerated() {
-            list.push_front(obj)
-            XCTAssertEqual(expects[i], list.front())
+            list.pushFront(obj)
+            XCTAssertEqual(expects[i], list.front)
         }
         
         XCTAssertTrue(!list.empty)
         XCTAssertEqual(list.count, expects.count)
         for i in Array(0..<list.count).reversed() {
-            let t: T = list.front()
-            list.pop_front()
+            let t: T = list.front
+            list.popFront()
             XCTAssertEqual(expects[i], t)
         }
         XCTAssertEqual(list.count, 0)

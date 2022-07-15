@@ -1,13 +1,34 @@
 import CxxSTL
 
-class ForwardList<T>: NSObject {
+/**
+ Forward list
+ Forward lists are sequence containers that allow constant time insert and erase operations anywhere within the sequence.
+
+ Forward lists are implemented as singly-linked lists; Singly linked lists can store each of the elements they contain in different and unrelated storage locations. The ordering is kept by the association to each element of a link to the next element in the sequence.
+
+ The main design difference between a forward_list container and a list container is that the first keeps internally only a link to the next element, while the latter keeps two links per element: one pointing to the next element and one to the preceding one, allowing efficient iteration in both directions, but consuming additional storage per element and with a slight higher time overhead inserting and removing elements. forward_list objects are thus more efficient than list objects, although they can only be iterated forwards.
+
+ Compared to other base standard sequence containers (array, vector and deque), forward_list perform generally better in inserting, extracting and moving elements in any position within the container, and therefore also in algorithms that make intensive use of these, like sorting algorithms.
+
+ The main drawback of forward_lists and lists compared to these other sequence containers is that they lack direct access to the elements by their position; For example, to access the sixth element in a forward_list one has to iterate from the beginning to that position, which takes linear time in the distance between these. They also consume some extra memory to keep the linking information associated to each element (which may be an important factor for large lists of small-sized elements).
+
+ The forward_list class template has been designed with efficiency in mind: By design, it is as efficient as a simple handwritten C-style singly-linked list, and in fact is the only standard container to deliberately lack a size member function for efficiency considerations: due to its nature as a linked list, having a size member that takes constant time would require it to keep an internal counter for its size (as list does). This would consume some extra storage and make insertion and removal operations slightly less efficient. To obtain the size of a forward_list object, you can use the distance algorithm with its begin and end, which is an operation that takes linear time.
+ */
+public class ForwardList<T>: NSObject {
     private var list: _ForwardList<AnyObject>
     
-    override init() {
+    /// Creates a new, empty ForwardList.
+    /// ```swift
+    /// let l = ForwardList<Int>()
+    /// ```
+    public override init() {
         self.list = _ForwardList<AnyObject>()
     }
     
-    func push_front(_ value: T) {
+    /**
+     Prepends the given element value to the beginning of the container.
+     */
+    public func pushFront(_ value: T) {
         switch value {
         case is Bool:
             let number: NSNumber = NSNumber(value: value as! Bool)
@@ -61,19 +82,31 @@ class ForwardList<T>: NSObject {
         }
     }
     
-    func front() -> T {
+    /**Returns the first element in the container.
+    Calling front on an empty container is undefined.
+     */
+    public var front: T {
         precondition(!list.empty())
         return list.front() as! T
     }
     
-    func pop_front() {
+    /**
+     Removes the first element of the container. If there are no elements in the container, the behavior is undefined.
+     */
+    public func popFront() {
         list.pop_front()
     }
     
-    func contains(_ elem: T) -> Bool {
+    /// Returns a Boolean value that indicates whether the given element exists in the forward list.
+    public func contains(_ elem: T) -> Bool {
         return list.contains(elem)
     }
     
+    /// The number of elements in the forward list.
+    public var count: Int {Int(list.count())}
+    
+    /// A Boolean value indicating whether the forward list is empty.
+    public var isEmpty: Bool {list.empty()}
+    
     var empty: Bool {list.empty()}
-    var isEmpty: Bool {list.empty()}
 }

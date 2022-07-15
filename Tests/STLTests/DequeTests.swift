@@ -20,22 +20,22 @@ class DequeTests: XCTestCase {
     func testEmpty() throws {
         let queue = Deque<Int>()
         XCTAssertEqual(true, queue.empty)
-        queue.push_back(1)
-        queue.push_back(2)
+        queue.pushBack(1)
+        queue.pushBack(2)
         XCTAssertEqual(false, queue.empty)
     }
     
     func testCount() throws {
         let queue = Deque<Int>()
-        queue.push_back(1)
-        queue.push_back(2)
+        queue.pushBack(1)
+        queue.pushBack(2)
         XCTAssertEqual(2, queue.count)
     }
     
     func testContains() throws {
         let queue = Deque<Int>()
-        queue.push_back(1)
-        queue.push_back(2)
+        queue.pushBack(1)
+        queue.pushBack(2)
         XCTAssertEqual(true, queue.contains(1))
         XCTAssertEqual(true, queue.contains(1))
         XCTAssertEqual(false, queue.contains(3))
@@ -43,41 +43,41 @@ class DequeTests: XCTestCase {
     
     func testFront() throws {
         let queue = Deque<Int>()
-        queue.push_front(1)
-        XCTAssertEqual(1, queue.front())
-        queue.push_front(2)
-        XCTAssertEqual(2, queue.front())
+        queue.pushFront(1)
+        XCTAssertEqual(1, queue.front)
+        queue.pushFront(2)
+        XCTAssertEqual(2, queue.front)
     }
     
     func testBack() throws {
         let queue = Deque<Int>()
-        queue.push_back(1)
-        XCTAssertEqual(1, queue.back())
-        queue.push_back(2)
-        XCTAssertEqual(2, queue.back())
+        queue.pushBack(1)
+        XCTAssertEqual(1, queue.back)
+        queue.pushBack(2)
+        XCTAssertEqual(2, queue.back)
     }
     
     func testAt() throws {
         let queue = Deque<Int>()
-        queue.push_back(1)
+        queue.pushBack(1)
         XCTAssertEqual(1, queue.at(0))
-        queue.push_back(2)
+        queue.pushBack(2)
         XCTAssertEqual(2, queue.at(1))
     }
     
     func testSubscript() throws {
         let queue = Deque<Int>()
-        queue.push_back(1)
+        queue.pushBack(1)
         XCTAssertEqual(1, queue[0])
-        queue.push_back(2)
+        queue.pushBack(2)
         XCTAssertEqual(2, queue[1])
     }
     
     func testErase() throws {
         let queue = Deque<Int>()
-        queue.push_back(1)
+        queue.pushBack(1)
         XCTAssertEqual(1, queue[0])
-        queue.push_back(2)
+        queue.pushBack(2)
         XCTAssertEqual(2, queue[1])
         queue.erase(1);
         XCTAssertEqual(1, queue.count)
@@ -86,9 +86,9 @@ class DequeTests: XCTestCase {
     
     func testUpdate() throws {
         let queue = Deque<Int>()
-        queue.push_back(1)
+        queue.pushBack(1)
         XCTAssertEqual(1, queue.at(0))
-        queue.push_back(2)
+        queue.pushBack(2)
         XCTAssertEqual(2, queue[1])
         queue[1] = 3
         XCTAssertEqual(3, queue[1])
@@ -179,30 +179,30 @@ class DequeTests: XCTestCase {
         XCTAssertTrue(queue.empty)
         
         for (i, obj) in expects.enumerated() {
-            queue.push_back(obj)
-            XCTAssertEqual(expects[i], queue.back())
+            queue.pushBack(obj)
+            XCTAssertEqual(expects[i], queue.back)
         }
         
         XCTAssertTrue(!queue.empty)
         XCTAssertEqual(queue.count, expects.count)
         for i in Array(0..<queue.count).reversed() {
-            let t: T = queue.back()
-            queue.pop_back()
+            let t: T = queue.back
+            queue.popBack()
             XCTAssertEqual(expects[i], t)
         }
         XCTAssertEqual(queue.count, 0)
         XCTAssertTrue(queue.empty)
         
         for (i, obj) in expects.enumerated() {
-            queue.push_front(obj)
-            XCTAssertEqual(expects[i], queue.front())
+            queue.pushFront(obj)
+            XCTAssertEqual(expects[i], queue.front)
         }
         
         XCTAssertTrue(!queue.empty)
         XCTAssertEqual(queue.count, expects.count)
         for i in Array(0..<queue.count).reversed() {
-            let t: T = queue.front()
-            queue.pop_front()
+            let t: T = queue.front
+            queue.popFront()
             XCTAssertEqual(expects[i], t)
         }
         XCTAssertEqual(queue.count, 0)
@@ -210,18 +210,18 @@ class DequeTests: XCTestCase {
         
         for (i, obj) in expects.enumerated() {
             queue.insert(obj, at: 0)
-            XCTAssertEqual(expects[i], queue.front())
+            XCTAssertEqual(expects[i], queue.front)
         }
         
         for i in Array(0..<queue.count).reversed() {
-            let t: T = queue.front()
-            queue.pop_front()
+            let t: T = queue.front
+            queue.popFront()
             XCTAssertEqual(expects[i], t)
         }
         
         for (i, obj) in expects.enumerated() {
             queue.insert(obj, at: queue.count)
-            XCTAssertEqual(expects[i], queue.back())
+            XCTAssertEqual(expects[i], queue.back)
         }
 
     }
