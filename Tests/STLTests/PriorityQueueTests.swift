@@ -35,9 +35,9 @@ class PriorityQueueTests: XCTestCase {
     func testTop() throws {
         let queue = PriorityQueue<Int>()
         queue.push(1)
-        XCTAssertEqual(1, queue.top())
+        XCTAssertEqual(1, queue.top)
         queue.push(2)
-        XCTAssertEqual(2, queue.top())
+        XCTAssertEqual(2, queue.top)
     }
     
 //    func testBool() throws {
@@ -133,7 +133,7 @@ class PriorityQueueTests: XCTestCase {
         XCTAssertTrue(!queue.empty)
         XCTAssertEqual(queue.count, expects.count)
         for i in 0..<queue.count {
-            let t: T = queue.top()
+            let t: T = queue.top
             queue.pop()
             XCTAssertEqual(expects[i], t)
         }
