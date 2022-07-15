@@ -35,25 +35,25 @@ class QueueTests: XCTestCase {
     func testFront() throws {
         let queue = Queue<Int>()
         queue.push(1)
-        XCTAssertEqual(1, queue.front())
+        XCTAssertEqual(1, queue.front)
     }
     
     func testBack() throws {
         let queue = Queue<Int>()
         queue.push(1)
-        XCTAssertEqual(1, queue.back())
+        XCTAssertEqual(1, queue.back)
         queue.push(2)
-        XCTAssertEqual(2, queue.back())
+        XCTAssertEqual(2, queue.back)
     }
     
     func testFrontBack() throws {
         let queue = Queue<Int>()
         queue.push(1)
-        XCTAssertEqual(1, queue.front())
-        XCTAssertEqual(1, queue.back())
+        XCTAssertEqual(1, queue.front)
+        XCTAssertEqual(1, queue.back)
         queue.push(2)
-        XCTAssertEqual(1, queue.front())
-        XCTAssertEqual(2, queue.back())
+        XCTAssertEqual(1, queue.front)
+        XCTAssertEqual(2, queue.back)
     }
 
     func testBool() throws {
@@ -147,7 +147,7 @@ class QueueTests: XCTestCase {
         XCTAssertTrue(!queue.empty)
         XCTAssertEqual(queue.count, expects.count)
         for i in 0..<queue.count {
-            let t: T = queue.front()
+            let t: T = queue.front
             queue.pop()
             XCTAssertEqual(expects[i], t)
         }

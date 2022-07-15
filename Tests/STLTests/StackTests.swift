@@ -35,9 +35,9 @@ class StackTests: XCTestCase {
     func testTop() throws {
         let queue = Stack<Int>()
         queue.push(1)
-        XCTAssertEqual(1, queue.top())
+        XCTAssertEqual(1, queue.top)
         queue.push(2)
-        XCTAssertEqual(2, queue.top())
+        XCTAssertEqual(2, queue.top)
     }
     
     func testBool() throws {
@@ -131,7 +131,7 @@ class StackTests: XCTestCase {
         XCTAssertTrue(!queue.empty)
         XCTAssertEqual(queue.count, expects.count)
         for i in Array(0..<queue.count).reversed() {
-            let t: T = queue.top()
+            let t: T = queue.top
             queue.pop()
             XCTAssertEqual(expects[i], t)
         }
