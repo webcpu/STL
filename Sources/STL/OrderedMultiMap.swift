@@ -16,7 +16,7 @@ fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
     }
 }
 
-public class MultiOrderedMap<K: Comparable, V: Any>: NSObject {
+public class OrderedMultiMap<K: Comparable, V: Any>: NSObject {
     private var q: _MultiMap<AnyObject, AnyObject>
     private var _index = 0
 
@@ -136,7 +136,7 @@ public class MultiOrderedMap<K: Comparable, V: Any>: NSObject {
     }
 }
 
-extension MultiOrderedMap: Sequence, IteratorProtocol {
+extension OrderedMultiMap: Sequence, IteratorProtocol {
     public typealias Element = (K, V)
     
     public func next() -> (K, V)? {

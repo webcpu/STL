@@ -1,5 +1,5 @@
 //
-//  MultiMap.swift
+//  OrderedMultiMapTests.swift
 //  
 //
 //  Created by liang on 2022-06-05.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import STL
 
-class MultiOrderedMapTests: XCTestCase {
+class OrderedMultiMapTests: XCTestCase {
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -18,7 +18,7 @@ class MultiOrderedMapTests: XCTestCase {
     }
     
     func testEmpty() throws {
-        let m = MultiOrderedMap<Int, Int>()
+        let m = OrderedMultiMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((1, 2))
         m.insert((2, 3))
@@ -26,7 +26,7 @@ class MultiOrderedMapTests: XCTestCase {
     }
     
     func testCount() throws {
-        let m = MultiOrderedMap<Int, Int>()
+        let m = OrderedMultiMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((1, 2))
         m.insert((1, 3))
@@ -34,7 +34,7 @@ class MultiOrderedMapTests: XCTestCase {
     }
     
     func testSequence() throws {
-        let m = MultiOrderedMap<Int, Int>()
+        let m = OrderedMultiMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((1, 2))
         m.insert((1, 3))
@@ -49,7 +49,7 @@ class MultiOrderedMapTests: XCTestCase {
     }
     
     func testInsert1() throws {
-        let m = MultiOrderedMap<Int, Int>()
+        let m = OrderedMultiMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
@@ -60,7 +60,7 @@ class MultiOrderedMapTests: XCTestCase {
     }
     
     func testKeys() throws {
-        let m = MultiOrderedMap<Int, Int>()
+        let m = OrderedMultiMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
@@ -69,7 +69,7 @@ class MultiOrderedMapTests: XCTestCase {
     }
     
     func testValues() throws {
-        let m = MultiOrderedMap<Int, Int>()
+        let m = OrderedMultiMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
@@ -79,7 +79,7 @@ class MultiOrderedMapTests: XCTestCase {
     }
     
     func testContains() throws {
-        let m = MultiOrderedMap<Int, Int>()
+        let m = OrderedMultiMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
@@ -89,7 +89,7 @@ class MultiOrderedMapTests: XCTestCase {
     }
     
     func testErase() throws {
-        let m = MultiOrderedMap<Int, Int>()
+        let m = OrderedMultiMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
@@ -182,7 +182,7 @@ class MultiOrderedMapTests: XCTestCase {
     }
     
     func verifyMap<K: Comparable, V>(_ inputs: [(K, V)]) {
-        let m = MultiOrderedMap<K, V>({(_ a: Any, _ b: Any) -> Bool in compareKey(a, b)})
+        let m = OrderedMultiMap<K, V>({(_ a: Any, _ b: Any) -> Bool in compareKey(a, b)})
         XCTAssertTrue(m.empty)
 
         for input in inputs {
