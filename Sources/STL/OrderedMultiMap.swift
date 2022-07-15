@@ -1,6 +1,6 @@
 import CxxSTL
 
-fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
+public func _orderedMultiMapCompareFunction(_ a: Any, _ b: Any) -> Bool {
     precondition(type(of: a) == (type(of: b)))
     switch a {
     case is NSNumber:
@@ -16,16 +16,34 @@ fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
     }
 }
 
+/**
+ OrderedMultiMaps are associative containers that store elements formed by a combination of a key value and a mapped value, following a specific order, and where multiple elements can have equivalent keys.
+
+ In a multimap, the key values are generally used to sort and uniquely identify the elements, while the mapped values store the content associated to this key. The types of key and mapped value may differ, and are grouped together in member type value_type.
+
+ Internally, the elements in a multimap are always sorted by its key following a specific strict weak ordering criterion indicated by its internal comparison object (of type Compare).
+
+ multimap containers are generally slower than unordered_multimap containers to access individual elements by their key, but they allow the direct iteration on subsets based on their order.
+
+ Multimaps are typically implemented as binary search trees.
+ */
 public class OrderedMultiMap<K: Comparable, V: Any>: NSObject {
     private var q: _MultiMap<AnyObject, AnyObject>
     private var _index = 0
 
-    init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = compareFunction) {
+    /// Creates a new, empty OrderedMultiMap.
+    /// ```swift
+    /// let m = OrderedMultiMap<Int>()
+    /// ```
+    public init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = _orderedMultiMapCompareFunction) {
         self.q = _MultiMap<AnyObject, AnyObject>(cmp);
         
     }
     
-    func insert(_ pair: (K, V)) {
+    /**
+     Inserts a key value pair into the container.
+     */
+    public func insert(_ pair: (K, V)) {
         let (key, value): (K, V) = pair
         switch value {
         case is Bool:
@@ -86,28 +104,36 @@ public class OrderedMultiMap<K: Comparable, V: Any>: NSObject {
         }
     }
     
-    func erase(_ pair: (K, V)) {
+    /// Removes from the multimap container a pair
+    public func erase(_ pair: (K, V)) {
         q.erase([pair.0, pair.1])
     }
     
-    var count: Int {Int(q.count())}
+    /// The number of elements in the ordered multimap.
+    public var count: Int {Int(q.count())}
+    
+    /// A Boolean value indicating whether the ordered multimap is empty.
+    public var isEmpty: Bool {q.empty()}
     
     var empty: Bool {q.empty()}
-    var isEmpty: Bool {q.empty()}
     
-    var keys: [K] {
+    /// A collection containing just the keys of the multimap.
+    public var keys: [K] {
         return q.keys() as! [K]
     }
     
-    var values: [V] {
+    /// A collection containing just the values of the multimap.
+    public var values: [V] {
         return q.values() as! [V]
     }
     
+    // all the elements in the container which have a key equivalent to key.
     func equal_range(_ key: K) -> [V] {
         return q.equal_range(key) as! [V]
     }
     
-    subscript(index: K) -> [V]! {
+    /// Accesses the key-value pairs at the specified position.
+    public subscript(index: K) -> [V]! {
         get {
             if q.contains(index) {
                 return equal_range(index)

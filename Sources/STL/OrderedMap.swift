@@ -1,6 +1,6 @@
 import CxxSTL
 
-fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
+public func _orderedMapCompareFunction(_ a: Any, _ b: Any) -> Bool {
     precondition(type(of: a) == (type(of: b)))
     switch a {
     case is NSNumber:
@@ -16,16 +16,35 @@ fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
     }
 }
 
+/**
+ OrderedMaps are associative containers that store elements formed by a combination of a key value and a mapped value, following a specific order.
+
+ In a map, the key values are generally used to sort and uniquely identify the elements, while the mapped values store the content associated to this key.
+
+ Internally, the elements in a map are always sorted by its key following a specific strict weak ordering criterion indicated by its internal comparison object (of type Compare).
+
+ map containers are generally slower than unordered_map containers to access individual elements by their key, but they allow the direct iteration on subsets based on their order.
+
+ The mapped values in a map can be accessed directly by their corresponding key using the bracket operator ((operator[]).
+
+ OrderedMaps are typically implemented as binary search trees.
+ */
 public class OrderedMap<K: Comparable, V: Any>: NSObject {
     private var q: _Map<AnyObject, AnyObject>
     private var _index = 0
 
-    init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = compareFunction) {
+    /// Creates a new, empty OrderedMultiMap.
+    /// ```swift
+    /// let m = OrderedMap<Int>()
+    /// ```
+    public init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = _orderedMapCompareFunction) {
         self.q = _Map<AnyObject, AnyObject>(cmp);
-        
     }
     
-    func insert(_ pair: (K, V)) {
+    /**
+     Inserts a key value pair into the container.
+     */
+    public func insert(_ pair: (K, V)) {
         let (key, value): (K, V) = pair
         switch value {
         case is Bool:
@@ -86,16 +105,21 @@ public class OrderedMap<K: Comparable, V: Any>: NSObject {
         }
     }
     
-    var count: Int {Int(q.count())}
+    /// The number of elements in the ordered map.
+    public var count: Int {Int(q.count())}
+    
+    /// A Boolean value indicating whether the ordered map is empty.
+    public var isEmpty: Bool {q.empty()}
     
     var empty: Bool {q.empty()}
-    var isEmpty: Bool {q.empty()}
     
-    var keys: [K] {
+    /// A collection containing just the keys of the map.
+    public var keys: [K] {
         return q.keys() as! [K]
     }
     
-    var values: [V] {
+    /// A collection containing just the values of the map.
+    public var values: [V] {
         var vs = [V]();
         for key in self.keys {
             vs.append(self[key]);
@@ -103,7 +127,8 @@ public class OrderedMap<K: Comparable, V: Any>: NSObject {
         return vs;
     }
     
-    subscript(index: K) -> V! {
+    /// Accesses the key-value pair at the specified position.
+    public subscript(index: K) -> V! {
         get {
             if q.contains(index) {
                 return q.at(index) as? V
@@ -120,7 +145,8 @@ public class OrderedMap<K: Comparable, V: Any>: NSObject {
         }
     }
     
-    func erase(_ key: K) {
+    /// Removes from the multimap container a pair
+    public func erase(_ key: K) {
         q.erase(key)
     }
     
