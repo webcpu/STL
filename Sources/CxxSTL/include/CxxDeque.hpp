@@ -21,6 +21,9 @@ extern "C" {
 - (void)insert:(Any)value at:(int)idx;
 - (Any)front;
 - (Any)back;
+- (id)at:(int)index;
+- (void)erase:(int)index;
+- (void)update:(id)value at:(int)index;
 - (void)pop_back;
 - (void)pop_front;
 - (int)count;

@@ -181,6 +181,16 @@ class Deque<T>: NSObject {
         return q.back() as! T
     }
     
+    func at(_ index: Int) -> T {
+        precondition(!q.empty())
+        return q.at(Int32(index)) as! T
+    }
+    
+    func erase(_ index: Int) {
+        precondition(index < count)
+        q.erase(Int32(index))
+    }
+    
     func pop_back() {
         q.pop_back()
     }
@@ -191,6 +201,16 @@ class Deque<T>: NSObject {
     
     func contains(_ value: T) -> Bool {
         return q.contains(value)
+    }
+    
+    subscript(index: Int) -> T {
+        get {
+            return q.at(Int32(index)) as! T
+        }
+        set(newValue) {
+            precondition(index < count)
+            q.update(newValue, at: Int32(index))
+        }
     }
     
     var count: Int {Int(q.count())}

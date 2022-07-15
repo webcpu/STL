@@ -57,6 +57,18 @@ using namespace std;
     return nil;
 }
 
+- (id)at:(int)index {
+    return _q.at(index);
+}
+
+- (void)update:(id)value at:(int)index {
+    _q.at(index) = value;
+}
+
+- (void)erase:(int)index {
+    _q.erase(next(_q.begin(), index));
+}
+
 - (void)pop_back {
     _q.pop_back();
 }

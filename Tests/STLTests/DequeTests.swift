@@ -57,6 +57,43 @@ class DequeTests: XCTestCase {
         XCTAssertEqual(2, queue.back())
     }
     
+    func testAt() throws {
+        let queue = Deque<Int>()
+        queue.push_back(1)
+        XCTAssertEqual(1, queue.at(0))
+        queue.push_back(2)
+        XCTAssertEqual(2, queue.at(1))
+    }
+    
+    func testSubscript() throws {
+        let queue = Deque<Int>()
+        queue.push_back(1)
+        XCTAssertEqual(1, queue[0])
+        queue.push_back(2)
+        XCTAssertEqual(2, queue[1])
+    }
+    
+    func testErase() throws {
+        let queue = Deque<Int>()
+        queue.push_back(1)
+        XCTAssertEqual(1, queue[0])
+        queue.push_back(2)
+        XCTAssertEqual(2, queue[1])
+        queue.erase(1);
+        XCTAssertEqual(1, queue.count)
+        XCTAssertEqual(1, queue[0])
+    }
+    
+    func testUpdate() throws {
+        let queue = Deque<Int>()
+        queue.push_back(1)
+        XCTAssertEqual(1, queue.at(0))
+        queue.push_back(2)
+        XCTAssertEqual(2, queue[1])
+        queue[1] = 3
+        XCTAssertEqual(3, queue[1])
+    }
+    
     func testBool() throws {
         let expects: [Bool] = [true, false, true]
         verifyDeque(expects)
