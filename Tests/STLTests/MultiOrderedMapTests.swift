@@ -1,5 +1,5 @@
 //
-//  OrderedMapTests.swift
+//  MultiMap.swift
 //  
 //
 //  Created by liang on 2022-06-05.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import STL
 
-class OrderedMapTests: XCTestCase {
+class MultiOrderedMapTests: XCTestCase {
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -18,7 +18,7 @@ class OrderedMapTests: XCTestCase {
     }
     
     func testEmpty() throws {
-        let m = OrderedMap<Int, Int>()
+        let m = MultiOrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((1, 2))
         m.insert((2, 3))
@@ -26,84 +26,41 @@ class OrderedMapTests: XCTestCase {
     }
     
     func testCount() throws {
-        let m = OrderedMap<Int, Int>()
+        let m = MultiOrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((1, 2))
-        m.insert((2, 3))
+        m.insert((1, 3))
         XCTAssertEqual(2, m.count)
     }
     
     func testSequence() throws {
-        let m = OrderedMap<Int, Int>()
+        let m = MultiOrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
-        m.insert((7, 2))
-        m.insert((2, 3))
-        m.insert((4, 5))
+        m.insert((1, 2))
+        m.insert((1, 3))
+        m.insert((1, 5))
+        m.insert((2, 5))
         
-        var i = 0;
-        let expect = [(2, 3), (4, 5), (7, 2)]
-        for x in m {
-            XCTAssertEqual(x.0, expect[i].0)
-            XCTAssertEqual(x.1, expect[i].1)
-            i += 1
-        }
+        XCTAssertEqual(m.keys, [1, 1, 1, 2])
+        XCTAssertEqual(m.values, [2, 3, 5, 5])
+        XCTAssertEqual(m.equal_range(1), [2,3,5])
+        XCTAssertEqual(m.equal_range(2), [5])
+        XCTAssertEqual(m.equal_range(3), [])
     }
     
     func testInsert1() throws {
-        let m = OrderedMap<Int, Int>()
+        let m = MultiOrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
         m.insert((4, 5))
-        XCTAssertEqual(2, m[7])
-        XCTAssertEqual(3, m[2])
-        XCTAssertEqual(5, m[4])
-    }
-    
-    func testInsert2() throws {
-        let m = OrderedMap<Int, Int>()
-        XCTAssertEqual(true, m.empty)
-        m[7] = 2
-        m[2] = 3
-        m[4] = 5
-        XCTAssertEqual(2, m[7])
-        XCTAssertEqual(3, m[2])
-        XCTAssertEqual(5, m[4])
-        XCTAssertEqual(m.keys, [2, 4, 7])
-        XCTAssertEqual(m.values, [3, 5, 2])
-    }
-    
-    func testErase1() throws {
-        let m = OrderedMap<Int, Int>()
-        XCTAssertEqual(true, m.empty)
-        m.insert((7, 2))
-        m.insert((2, 3))
-        m.insert((4, 3))
-        m.erase(4);
-        XCTAssertEqual([2, 7], m.keys)
-    }
-    
-    func testErase2() throws {
-        let m = OrderedMap<Int, Int>()
-        XCTAssertEqual(true, m.empty)
-        m[7] = 2
-        m[2] = 3
-        m[4] = 5
-        m[4] = nil;
-        XCTAssertEqual([2, 7], m.keys)
-    }
-    
-    func testContains() throws {
-        let m = OrderedMap<Int, Int>()
-        XCTAssertEqual(true, m.empty)
-        m.insert((7, 2))
-        m.insert((2, 3))
-        m.insert((4, 3))
-        XCTAssertEqual(nil , m[3])
+        XCTAssertEqual([2], m[7])
+        XCTAssertEqual([3], m[2])
+        XCTAssertEqual([5], m[4])
     }
     
     func testKeys() throws {
-        let m = OrderedMap<Int, Int>()
+        let m = MultiOrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
@@ -112,12 +69,13 @@ class OrderedMapTests: XCTestCase {
     }
     
     func testValues() throws {
-        let m = OrderedMap<Int, Int>()
+        let m = MultiOrderedMap<Int, Int>()
         XCTAssertEqual(true, m.empty)
         m.insert((7, 2))
         m.insert((2, 3))
         m.insert((4, 3))
-        XCTAssertEqual([3, 3, 2], m.values)
+        m.insert((2, 4))
+        XCTAssertEqual([3, 4, 3, 2], m.values)
     }
 
 //    func testBool() throws {
@@ -206,13 +164,13 @@ class OrderedMapTests: XCTestCase {
     }
     
     func verifyMap<K: Comparable, V>(_ inputs: [(K, V)]) {
-        let m = OrderedMap<K, V>({(_ a: Any, _ b: Any) -> Bool in compareKey(a, b)})
+        let m = MultiOrderedMap<K, V>({(_ a: Any, _ b: Any) -> Bool in compareKey(a, b)})
         XCTAssertTrue(m.empty)
 
         for input in inputs {
             let k: K = input.0
             let v: V = input.1
-            m[k] = v
+            m.insert((k, v))
         }
 
         let expects = inputs.sorted(by: {$0.0 < $1.0})
@@ -249,14 +207,14 @@ fileprivate func compareKey(_ a: Any, _ b: Any) -> Bool {
     }
 }
 
-extension NSObject: Comparable {
-    public static func < (lhs: NSObject, rhs: NSObject) -> Bool {
-        return lhs.description < rhs.description
-    }
-}
-
-extension CGPoint: Comparable {
-    public static func < (lhs: CGPoint, rhs: CGPoint) -> Bool {
-        return lhs.y < rhs.y
-    }
-}
+//extension NSObject: Comparable {
+//    public static func < (lhs: NSObject, rhs: NSObject) -> Bool {
+//        return lhs.description < rhs.description
+//    }
+//}
+//
+//extension CGPoint: Comparable {
+//    public static func < (lhs: CGPoint, rhs: CGPoint) -> Bool {
+//        return lhs.y < rhs.y
+//    }
+//}

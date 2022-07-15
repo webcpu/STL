@@ -16,12 +16,12 @@ fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
     }
 }
 
-public class OrderedMap<K: Comparable, V: Any>: NSObject {
-    private var q: _Map<AnyObject, AnyObject>
+public class MultiOrderedMap<K: Comparable, V: Any>: NSObject {
+    private var q: _MultiMap<AnyObject, AnyObject>
     private var _index = 0
 
     init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = compareFunction) {
-        self.q = _Map<AnyObject, AnyObject>(cmp);
+        self.q = _MultiMap<AnyObject, AnyObject>(cmp);
         
     }
     
@@ -86,6 +86,10 @@ public class OrderedMap<K: Comparable, V: Any>: NSObject {
         }
     }
     
+    func erase(_ pair: (K, V)) {
+        q.erase([pair.0, pair.1])
+    }
+    
     var count: Int {Int(q.count())}
     
     var empty: Bool {q.empty()}
@@ -96,32 +100,24 @@ public class OrderedMap<K: Comparable, V: Any>: NSObject {
     }
     
     var values: [V] {
-        var vs = [V]();
-        for key in self.keys {
-            vs.append(self[key]);
-        }
-        return vs;
+        return q.values() as! [V]
     }
     
-    subscript(index: K) -> V! {
+    func equal_range(_ key: K) -> [V] {
+        return q.equal_range(key) as! [V]
+    }
+    
+    subscript(index: K) -> [V]! {
         get {
             if q.contains(index) {
-                return q.at(index) as? V
+                return equal_range(index)
             } else {
                 return nil
             }
         }
-        set(newValue) {
-            if let value = newValue {
-                q.insert([index, value])
-            } else {
-                q.erase(index)
-            }
-        }
-    }
-    
-    func erase(_ key: K) {
-        q.erase(key)
+//        set {
+//            q.insert([index, newValue])
+//        }
     }
     
     func nth(_ index: Int) -> (K, V) {
@@ -140,7 +136,7 @@ public class OrderedMap<K: Comparable, V: Any>: NSObject {
     }
 }
 
-extension OrderedMap: Sequence, IteratorProtocol {
+extension MultiOrderedMap: Sequence, IteratorProtocol {
     public typealias Element = (K, V)
     
     public func next() -> (K, V)? {
@@ -151,5 +147,37 @@ extension OrderedMap: Sequence, IteratorProtocol {
         } else {
             return nil
         }
+    }
+}
+
+//extension MultiOrderedMap: Sequence {
+//    public func makeIterator() -> some IteratorProtocol {
+//        return MultiMapIterator<K, V>(self)
+//    }
+//}
+//
+//struct MultiMapIterator<K: Comparable, V>: IteratorProtocol {
+//    private let map: MultiOrderedMap<K, V>
+//    private var index = 0
+//
+//    typealias Element = (K, V)
+//    init(_ map: MultiOrderedMap<K, V>) {
+//        self.map = map
+//    }
+//
+//    mutating func next() -> Element? {
+//        if index != map.end() {
+//            let pair: Element = map.nth(index)
+//            index += 1;
+//            return pair
+//        } else {
+//            return nil
+//        }
+//    }
+//}
+
+extension Sequence where Element: Equatable {
+    func unique() -> [Element] {
+        NSOrderedSet(array: self as! [Any]).array as! [Element]
     }
 }

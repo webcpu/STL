@@ -132,11 +132,9 @@ class PriorityQueueTests: XCTestCase {
         let expects = inputs.sorted(by: {$0 > $1})
         XCTAssertTrue(!queue.empty)
         XCTAssertEqual(queue.count, expects.count)
-        print(expects)
         for i in 0..<queue.count {
             let t: T = queue.top()
             queue.pop()
-            print(expects[i])
             XCTAssertEqual(expects[i], t)
         }
         XCTAssertEqual(queue.count, 0)
@@ -146,7 +144,6 @@ class PriorityQueueTests: XCTestCase {
 
 fileprivate func compareF(_ a: Any, _ b: Any) -> Bool {
     precondition(type(of: a) == (type(of: b)))
-    print(type(of:a))
     switch a {
     case is NSObject:
         let lhs = a as! NSObject

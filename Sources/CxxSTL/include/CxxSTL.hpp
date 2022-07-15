@@ -26,6 +26,7 @@ extern "C" {
 
 #import "CxxPriorityQueue.hpp"
 #import "CxxMap.hpp"
+#import "CxxMultiMap.hpp"
 #import "CxxSet.hpp"
 
 #ifdef __cplusplus

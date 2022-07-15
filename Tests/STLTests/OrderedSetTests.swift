@@ -236,10 +236,8 @@ class OrderedSetTests: XCTestCase {
         let expects = inputs.sorted(by: {$0 < $1})
         XCTAssertTrue(!set.empty)
         XCTAssertEqual(set.count, expects.count)
-        print(expects)
         for i in 0..<set.count {
             let t: T = set.nth(i)
-            print(expects[i])
             XCTAssertEqual(expects[i], t)
         }
     }
@@ -247,7 +245,6 @@ class OrderedSetTests: XCTestCase {
 
 fileprivate func compareKey(_ a: Any, _ b: Any) -> Bool {
     precondition(type(of: a) == (type(of: b)))
-    print(type(of:a))
     switch a {
     case is NSObject:
         let lhs = a as! NSObject
