@@ -1,6 +1,6 @@
 import CxxSTL
 
-fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
+public func _orderedSetCompareFunction(_ a: Any, _ b: Any) -> Bool {
     precondition(type(of: a) == (type(of: b)))
     switch a {
     case is NSNumber:
@@ -16,18 +16,38 @@ fileprivate func compareFunction(_ a: Any, _ b: Any) -> Bool {
     }
 }
 
+/**
+ OrderedSets are containers that store unique elements following a specific order.
+
+ In an OrderedSet, the value of an element also identifies it (the value is itself the key, of type T), and each value must be unique. The value of the elements in a set cannot be modified once in the container (the elements are always const), but they can be inserted or removed from the container.
+
+ Internally, the elements in a set are always sorted following a specific strict weak ordering criterion indicated by its internal comparison object (of type Compare).
+
+ OrderedSet containers are generally slower than unordered set containers to access individual elements by their key, but they allow the direct iteration on subsets based on their order.
+
+ OrderedSets are typically implemented as binary search trees.
+ */
 public class OrderedSet<T: Comparable>: NSObject {
     private var q: _Set<AnyObject>
     private var _index = 0
     private var cmp: @convention(c) (Any, Any) -> Bool
     
-    init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = compareFunction) {
-        self.cmp = compareFunction;
+    /// Creates a new, empty OrderedSet.
+    /// ```swift
+    /// let set = OrderedSet<Int>()
+    /// ```
+    public init(_ cmp: @escaping @convention(c) (Any, Any) -> Bool = _orderedSetCompareFunction) {
+        self.cmp = _orderedSetCompareFunction;
         self.q = _Set<AnyObject>(cmp);
         _index = 0;
     }
     
-    func insert(_ value: T) {
+    /**
+     Extends the container by inserting new elements, effectively increasing the container size by the number of elements inserted.
+
+     Because elements in a set are unique, the insertion operation checks whether each inserted element is equivalent to an element already in the container, and if so, the element is not inserted, returning an iterator to this existing element (if the function returns a value).
+     */
+    public func insert(_ value: T) {
         switch value {
         case is Bool:
             let number: NSNumber = NSNumber(value: value as! Bool)
@@ -87,57 +107,69 @@ public class OrderedSet<T: Comparable>: NSObject {
         }
     }
     
-    var count: Int {Int(q.count())}
+    /// The number of elements in the ordered set.
+    public var count: Int {Int(q.count())}
+    
+    /// A Boolean value indicating whether the ordered set is empty.
+    public var isEmpty: Bool {q.empty()}
     
     var empty: Bool {q.empty()}
-    var isEmpty: Bool {q.empty()}
     
-    
-    func intersection(_ s2: OrderedSet<T>) -> OrderedSet<T> {
+    /**
+     Returns a new set with the elements that are common to both this set and the given sequence.  */
+    public func intersection(_ other: OrderedSet<T>) -> OrderedSet<T> {
         let result = OrderedSet<T>(self.cmp)
         for x in self {
-            if s2.contains(x) {
+            if other.contains(x) {
                 result.insert(x)
             }
         }
         return result
     }
     
-    func union(_ s2: OrderedSet<T>) -> OrderedSet<T> {
+    /**
+     Returns a new set with the elements of both this set and the given sequence.
+     */
+    public func union(_ other: OrderedSet<T>) -> OrderedSet<T> {
         let result = OrderedSet<T>(self.cmp)
         for x in self {
             result.insert(x)
         }
         
-        for x in s2 {
+        for x in other {
             result.insert(x)
         }
         return result
     }
     
-    func subtraction(_ s2: OrderedSet<T>) -> OrderedSet<T> {
-        return self.complement(s2)
+   /**
+    Returns a new set containing the elements of this set that do not occur in the given set.
+   */
+    public func subtraction(_ other: OrderedSet<T>) -> OrderedSet<T> {
+        return self.complement(other)
     }
     
-    func difference(_ s2: OrderedSet<T>) -> OrderedSet<T> {
-        return self.complement(s2)
+    func difference(_ other: OrderedSet<T>) -> OrderedSet<T> {
+        return self.complement(other)
     }
     
-    func complement(_ s2: OrderedSet<T>) -> OrderedSet<T> {
+    func complement(_ other: OrderedSet<T>) -> OrderedSet<T> {
         let result = OrderedSet<T>(self.cmp)
         for x in self {
-            if !s2.contains(x) {
+            if !other.contains(x) {
                 result.insert(x)
             }
         }
         return result
     }
     
-    func contains(_ elem: T) -> Bool {
+    /// Returns a Boolean value that indicates whether the given element exists in the set.
+    public func contains(_ elem: T) -> Bool {
         return q.contains(elem)
     }
     
-    func erase(_ key: T) {
+    /// Removes from the set container a single element
+    public func erase(_ key: T) {
         q.erase(key)
     }
     

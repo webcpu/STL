@@ -103,14 +103,14 @@ public class PriorityQueue<T: Comparable>: NSObject {
     }
     
     /// The top element in the PriorityQueue.
-    /// The top element is the element that compares higher in the PriorityQueue, and the next that is removed from the container when ``PriorityQueue/pop`` is called.
+    /// The top element is the element that compares higher in the PriorityQueue, and the next that is removed from the container when ``PriorityQueue/pop()`` is called.
     public var top: T {
         precondition(!q.empty())
         return q.top() as! T
     }
     
     /// Removes the element on top of the priority_queue, effectively reducing its size by one. The element removed is the one with the highest value.
-    /// The value of this element can be retrieved before being popped by calling member ``PriorityQueue/pop``.
+    /// The value of this element can be retrieved before being popped by calling member ``PriorityQueue/top``.
     public func pop() {
         q.pop()
     }
