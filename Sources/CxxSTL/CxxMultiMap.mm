@@ -48,9 +48,12 @@ function<bool(id, id)> multiMapComparator = [](id a, id b) { return numberString
 - (void)erase:(NSArray *)pair {
     id key = pair[0];
     id value = pair[1];
-    for(auto it = _q.find(key); it != _q.end(); ++it) {
+    auto result = _q.equal_range(key);
+    for(auto it = result.first; it != result.second;) {
         if(it->second == value) {
-            _q.erase(it);
+            it = _q.erase(it);
+        } else {
+            ++it;
         }
     }
 }

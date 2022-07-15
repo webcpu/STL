@@ -77,12 +77,30 @@ class MultiOrderedMapTests: XCTestCase {
         m.insert((2, 4))
         XCTAssertEqual([3, 4, 3, 2], m.values)
     }
-
-//    func testBool() throws {
-//        let expects: [Bool] = [true, false, true]
-//        verifyMap(expects)
-//    }
     
+    func testContains() throws {
+        let m = MultiOrderedMap<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m.insert((7, 2))
+        m.insert((2, 3))
+        m.insert((4, 3))
+        m.insert((2, 4))
+        XCTAssertEqual(nil, m[8])
+    }
+    
+    func testErase() throws {
+        let m = MultiOrderedMap<Int, Int>()
+        XCTAssertEqual(true, m.empty)
+        m.insert((7, 2))
+        m.insert((2, 3))
+        m.insert((4, 3))
+        m.insert((2, 4))
+        m.erase((4, 3))
+        m.erase((2, 3))
+        XCTAssertEqual(nil, m[4])
+        XCTAssertEqual([4], m[2])
+    }
+
     func testFloat() throws {
         let expects: [(Float, Int)] = [(7, 49),  (5, 25), (9, 81)]
         verifyMap(expects)
