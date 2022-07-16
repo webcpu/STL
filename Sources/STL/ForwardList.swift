@@ -1,8 +1,7 @@
 import CxxSTL
 
 /**
- Forward list
- Forward lists are sequence containers that allow constant time insert and erase operations anywhere within the sequence.
+ ForwardLists are sequence containers that allow constant time insert and erase operations anywhere within the sequence.
 
  Forward lists are implemented as singly-linked lists; Singly linked lists can store each of the elements they contain in different and unrelated storage locations. The ordering is kept by the association to each element of a link to the next element in the sequence.
 

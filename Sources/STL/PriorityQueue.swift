@@ -17,8 +17,7 @@ public func _priorityQueueCompareFunction(_ a: Any, _ b: Any) -> Bool {
 }
 
 /**
- Priority queue
- Priority queues are a type of container adaptors, specifically designed such that its first element is always the greatest of the elements it contains, according to some strict weak ordering criterion.
+ PriorityQueues are a type of container adaptors, specifically designed such that its first element is always the greatest of the elements it contains, according to some strict weak ordering criterion.
 
  This context is similar to a heap, where elements can be inserted at any moment, and only the max heap element can be retrieved (the one at the top in the priority queue).
 
