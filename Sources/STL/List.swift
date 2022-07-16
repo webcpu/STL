@@ -14,6 +14,7 @@ The main drawback of lists and forward_lists compared to these other sequence co
 
 public class List<T>: NSObject {
     private var list: _List<AnyObject>
+    private var _index = 0
     
     /// Creates a new, empty List.
     /// ```swift
@@ -170,6 +171,16 @@ public class List<T>: NSObject {
         return list.contains(elem)
     }
     
+    /// Removes the element at index.
+    public func erase(_ index: Int) {
+        list.erase(Int32(index))
+    }
+    
+    func nth(_ index: Int) -> T {
+        let value: T = list.nth(Int32(index)) as! T;
+        return value
+    }
+    
     /// The number of elements in the list.
     public var count: Int {Int(list.count())}
     
@@ -177,4 +188,18 @@ public class List<T>: NSObject {
     public var isEmpty: Bool {list.empty()}
     
     var empty: Bool {list.empty()}
+}
+
+extension List: Sequence, IteratorProtocol {
+    public typealias Element = T
+    
+    public func next() -> T? {
+        if _index < self.count {
+            let value: T = nth(_index)
+            _index += 1;
+            return value
+        } else {
+            return nil
+        }
+    }
 }

@@ -54,7 +54,7 @@ using namespace std;
 }
 
 - (id)nth:(int)index {
-    auto &element = *std::next(_l.begin(), index);
+    id element = *std::next(_l.begin(), index);
     return element;
 }
 

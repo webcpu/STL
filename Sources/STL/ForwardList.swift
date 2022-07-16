@@ -103,8 +103,9 @@ public class ForwardList<T>: NSObject {
         return list.contains(elem)
     }
     
+    /// Removes the element at index.
     public func erase(_ index: Int) {
-        return list.erase(Int32(index))
+        list.erase(Int32(index))
     }
     
     func nth(_ index: Int) -> T {

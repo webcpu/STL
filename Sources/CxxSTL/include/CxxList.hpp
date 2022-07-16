@@ -23,6 +23,8 @@ extern "C" {
 - (void)pop_back;
 - (void)pop_front;
 - (bool)contains:(id)value;
+- (void)erase:(int)index;
+- (Any)nth:(int)index;
 - (int)count;
 - (bool)empty;
 @end

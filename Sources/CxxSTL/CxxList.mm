@@ -12,7 +12,7 @@
 using namespace std;
 
 @interface _List()
-@property (nonatomic) list<id> q;
+@property (nonatomic) list<id> l;
 @end
     
 @implementation _List
@@ -21,23 +21,23 @@ using namespace std;
     self = [super init];
     
     if (self) {
-        _q = list<id>();
+        _l = list<id>();
     }
     
     return self;
 }
 
 - (void)push_back:(id)value {
-    _q.push_back(value);
+    _l.push_back(value);
 }
 
 - (void)push_front:(id)value {
-    _q.push_front(value);
+    _l.push_front(value);
 }
 
 - (id)front {
-    if (!self.q.empty()) {
-        id value = _q.front();
+    if (!self.l.empty()) {
+        id value = _l.front();
         return value;
     }
     
@@ -45,8 +45,8 @@ using namespace std;
 }
 
 - (id)back {
-    if (!self.q.empty()) {
-        id value = _q.back();
+    if (!self.l.empty()) {
+        id value = _l.back();
         return value;
     }
     
@@ -54,23 +54,33 @@ using namespace std;
 }
 
 - (void)pop_back {
-    _q.pop_back();
+    _l.pop_back();
 }
 
 - (void)pop_front {
-    _q.pop_front();
+    _l.pop_front();
 }
 
 - (bool)contains:(id)value {
-    return (std::find(_q.begin(), _q.end(), value) != _q.end());
+    return (std::find(_l.begin(), _l.end(), value) != _l.end());
+}
+
+- (void)erase:(int)index {
+    auto &element = *std::next(_l.begin(), index);
+    std::erase(_l, element);
+}
+
+- (id)nth:(int)index {
+    id element = *std::next(_l.begin(), index);
+    return element;
 }
 
 - (int)count {
-    return int(_q.size());
+    return int(_l.size());
 }
 
 - (bool)empty {
-    return _q.empty();
+    return _l.empty();
 }
 
 - (NSString *)description {

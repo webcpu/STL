@@ -55,6 +55,31 @@ class ListTests: XCTestCase {
         list.pushBack(2)
         XCTAssertEqual(2, list.back)
     }
+   
+    func testSequence() throws {
+        let list = List<Int>()
+        XCTAssertEqual(true, list.empty)
+        list.pushFront(1)
+        list.pushFront(2)
+        list.pushFront(3)
+        var i = 0;
+        let expect = [3, 2, 1]
+        for x in list {
+            XCTAssertEqual(x, expect[i])
+            i += 1
+        }
+    }
+    
+    func testErase() throws {
+        let list = List<Int>()
+        list.pushFront(1)
+        XCTAssertEqual(1, list.front)
+        list.pushFront(2)
+        XCTAssertEqual(2, list.front)
+        list.erase(1);
+        XCTAssertEqual(1, list.count)
+        XCTAssertEqual(2, list.front)
+    }
     
     func testBool() throws {
         let expects: [Bool] = [true, false, true]
