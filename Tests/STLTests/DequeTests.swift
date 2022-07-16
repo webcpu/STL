@@ -73,6 +73,20 @@ class DequeTests: XCTestCase {
         XCTAssertEqual(2, queue[1])
     }
     
+    func testSequence() throws {
+        let queue = Deque<Int>()
+        XCTAssertEqual(true, queue.empty)
+        queue.pushBack(1)
+        queue.pushBack(2)
+        queue.pushBack(3)
+        var i = 0;
+        let expect = [1, 2, 3]
+        for x in queue {
+            XCTAssertEqual(x, expect[i])
+            i += 1
+        }
+    }
+    
     func testErase() throws {
         let queue = Deque<Int>()
         queue.pushBack(1)
@@ -223,6 +237,5 @@ class DequeTests: XCTestCase {
             queue.insert(obj, at: queue.count)
             XCTAssertEqual(expects[i], queue.back)
         }
-
     }
 }

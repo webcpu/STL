@@ -14,6 +14,7 @@ import CxxSTL
  */
 public class Deque<T>: NSObject {
     private var q: _Deque<AnyObject>
+    private var _index = 0
     
     /// Creates a new, empty deque.
     /// ```swift
@@ -251,4 +252,18 @@ public class Deque<T>: NSObject {
     public var isEmpty: Bool {q.empty()}
     
     var empty: Bool {q.empty()}
+}
+
+extension Deque: Sequence, IteratorProtocol {
+    public typealias Element = T
+    
+    public func next() -> T? {
+        if _index < count {
+            let value: T = self[_index]
+            _index += 1;
+            return value
+        } else {
+            return nil
+        }
+    }
 }

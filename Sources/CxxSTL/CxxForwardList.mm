@@ -48,6 +48,16 @@ using namespace std;
     return (std::find(_l.begin(), _l.end(), value) != _l.end());
 }
 
+- (void)erase:(int)index {
+    auto &element = *std::next(_l.begin(), index);
+    std::erase(_l, element);
+}
+
+- (id)nth:(int)index {
+    auto &element = *std::next(_l.begin(), index);
+    return element;
+}
+
 - (bool)empty {
     return _l.empty();
 }
@@ -59,6 +69,5 @@ using namespace std;
 - (int)count {
     return int(distance(_l.begin(), _l.end()));
 }
-
 
 @end

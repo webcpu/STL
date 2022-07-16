@@ -21,6 +21,8 @@ extern "C" {
 - (void)pop_front;
 - (bool)empty;
 - (bool)contains:(id)value;
+- (void)erase:(int)index;
+- (Any)nth:(int)index;
 - (int)count;
 @end
 

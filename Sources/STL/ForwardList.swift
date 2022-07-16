@@ -16,6 +16,7 @@ import CxxSTL
  */
 public class ForwardList<T>: NSObject {
     private var list: _ForwardList<AnyObject>
+    private var _index = 0
     
     /// Creates a new, empty ForwardList.
     /// ```swift
@@ -102,6 +103,15 @@ public class ForwardList<T>: NSObject {
         return list.contains(elem)
     }
     
+    public func erase(_ index: Int) {
+        return list.erase(Int32(index))
+    }
+    
+    func nth(_ index: Int) -> T {
+        let value: T = list.nth(Int32(index)) as! T;
+        return value
+    }
+    
     /// The number of elements in the forward list.
     public var count: Int {Int(list.count())}
     
@@ -109,4 +119,18 @@ public class ForwardList<T>: NSObject {
     public var isEmpty: Bool {list.empty()}
     
     var empty: Bool {list.empty()}
+}
+
+extension ForwardList: Sequence, IteratorProtocol {
+    public typealias Element = T
+    
+    public func next() -> T? {
+        if _index < self.count {
+            let value: T = nth(_index)
+            _index += 1;
+            return value
+        } else {
+            return nil
+        }
+    }
 }
