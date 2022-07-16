@@ -28,5 +28,5 @@ let package = Package(
             name: "STLTests",
             dependencies: ["STL"]),
     ],
-    cxxLanguageStandard: .cxx17
+    cxxLanguageStandard: .cxx20
 )
