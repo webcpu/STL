@@ -17,7 +17,7 @@ using namespace std;
 bool numberComparator(id a, id b) {
     NSNumber *a1 = static_cast<NSNumber *>(a);
     NSNumber *b1 = static_cast<NSNumber *>(b);
-    return [a1 isGreaterThan:b1];
+    return [a1 compare: b1] != NSOrderedDescending;
 }
 
 bool stringComparator(id a, id b) {

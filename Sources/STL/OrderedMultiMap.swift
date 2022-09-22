@@ -6,11 +6,11 @@ public func _orderedMultiMapCompareFunction(_ a: Any, _ b: Any) -> Bool {
     case is NSNumber:
         let lhs = a as! NSNumber
         let rhs = b as! NSNumber
-        return lhs.isLessThan(rhs)
+        return lhs.compare(rhs) !=  ComparisonResult.orderedDescending
     case is NSString:
         let lhs = a as! NSString
         let rhs = b as! NSString
-        return lhs.isLessThan(rhs)
+        return lhs.compare(rhs as String) != ComparisonResult.orderedDescending
     default:
         return true
     }
