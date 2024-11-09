@@ -72,6 +72,14 @@ function<bool(id, id)> mapComparator = [](id a, id b) { return numberStringCompa
     return ks;
 }
 
+- (NSArray* )values {
+    NSMutableArray* vs = [[NSMutableArray alloc] init];
+    for(const auto& [key, value] : _q) {
+        [vs addObject:value];
+    }
+    return vs;
+}
+
 - (id)at:(id)index {
     return _q.at(index);
 }

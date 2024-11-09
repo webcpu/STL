@@ -111,9 +111,9 @@ class OrderedSetTests: XCTestCase {
         var i = 0;
         let expect = [1, 2, 4, 6, 7]
         
-        for x in s {
-            XCTAssertEqual(x, expect[i])
-            i += 1
+        for (index, x) in s.enumerated() {
+            print("x = \(x)")
+            XCTAssertEqual(x, expect[index])
         }
     }
     

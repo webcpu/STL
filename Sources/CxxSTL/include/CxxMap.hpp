@@ -29,6 +29,7 @@ extern "C" {
 - (int)end;
 - (int)next:(int)index;
 - (NSArray* )keys;
+- (NSArray* )values;
 - (id)at:(id)index;
 - (NSArray* )nth:(id)index;
 @end

@@ -6,11 +6,12 @@ public func _orderedMapCompareFunction(_ a: Any, _ b: Any) -> Bool {
     case is NSNumber:
         let lhs = a as! NSNumber
         let rhs = b as! NSNumber
-        return lhs.isLessThan(rhs)
+        return lhs.compare(rhs) !=  ComparisonResult.orderedDescending
     case is NSString:
         let lhs = a as! NSString
         let rhs = b as! NSString
-        return lhs.isLessThan(rhs)
+
+        return lhs.compare(rhs as String) !=  ComparisonResult.orderedDescending
     default:
         return true
     }
@@ -120,11 +121,12 @@ public class OrderedMap<K: Comparable, V: Any>: NSObject {
     
     /// A collection containing just the values of the map.
     public var values: [V] {
-        var vs = [V]();
-        for key in self.keys {
-            vs.append(self[key]);
-        }
-        return vs;
+        return q.values() as! [V]
+//        var vs = [V]();
+//        for key in self.keys {
+//            vs.append(self[key]);
+//        }
+//        return vs;
     }
     
     /// Accesses the key-value pair at the specified position.
